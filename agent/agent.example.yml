@@ -1,0 +1,33 @@
+# Sentinel Agent Configuration
+
+# Unique agent identifier (auto-generated if not set)
+agent_id: "my-server-001"
+
+# Hostname (auto-detected if not set)
+hostname: "my-server"
+
+# Sentinel API endpoint
+endpoint: "http://localhost:4006"
+
+# API key for authentication
+api_key: "bl_sentinel_master_dev_key_12345"
+
+# Collection interval in seconds
+interval: 30
+
+# Number of top processes to collect
+top_processes: 20
+
+# Whether to collect Docker container metrics
+collect_containers: true
+
+# Mount points to exclude from disk metrics
+excluded_mounts:
+  - /dev
+  - /sys
+  - /proc
+  - /run
+
+# Network interfaces to exclude
+excluded_interfaces:
+  - lo
