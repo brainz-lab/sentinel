@@ -11,9 +11,12 @@ Rails.application.routes.draw do
 
     resources :projects, only: [:index, :show, :new, :create] do
       # Project-scoped resources
-      root to: 'overview#index', as: :overview
+      get '/', to: 'overview#index', as: :overview
 
-      resources :hosts do
+      # Hosts
+      get 'hosts/new', to: 'hosts#new', as: :new_host
+      get 'hosts/:id/edit', to: 'hosts#edit', as: :edit_host
+      resources :hosts, except: [:new, :edit] do
         member do
           get :metrics
           get :processes
@@ -21,8 +24,15 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :host_groups
-      resources :alert_rules
+      # Host Groups
+      get 'host_groups/new', to: 'host_groups#new', as: :new_host_group
+      get 'host_groups/:id/edit', to: 'host_groups#edit', as: :edit_host_group
+      resources :host_groups, except: [:new, :edit]
+
+      # Alert Rules
+      get 'alert_rules/new', to: 'alert_rules#new', as: :new_alert_rule
+      get 'alert_rules/:id/edit', to: 'alert_rules#edit', as: :edit_alert_rule
+      resources :alert_rules, except: [:new, :edit]
     end
   end
 

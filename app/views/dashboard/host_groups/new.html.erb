@@ -1,0 +1,20 @@
+<% content_for(:title) { "New Host Group - #{current_project.name}" } %>
+
+<div class="max-w-xl">
+  <div class="mb-8">
+    <%= link_to dashboard_project_host_groups_path(current_project),
+        class: "inline-flex items-center gap-1 text-sm font-medium mb-4 transition",
+        style: "color: var(--color-ink-500);" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back to groups
+    <% end %>
+    <h1 class="text-2xl font-semibold" style="color: var(--color-ink-900);">New Host Group</h1>
+    <p class="mt-1 text-sm" style="color: var(--color-ink-500);">Create a group to organize your hosts</p>
+  </div>
+
+  <div class="rounded-2xl border p-6" style="background: #FFFFFE; border-color: var(--color-cream-200);">
+    <%= render 'form' %>
+  </div>
+</div>

@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module Dashboard
   class BaseController < ActionController::Base
     include ActionController::Cookies

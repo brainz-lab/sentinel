@@ -1,0 +1,65 @@
+<% content_for(:title) { "New Project" } %>
+
+<div class="max-w-xl">
+  <!-- Header -->
+  <div class="mb-8">
+    <%= link_to dashboard_root_path, class: "inline-flex items-center gap-1 text-sm font-medium mb-4 transition", style: "color: var(--color-ink-500);" do %>
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
+      </svg>
+      Back to projects
+    <% end %>
+    <h1 class="text-2xl font-semibold" style="color: var(--color-ink-900);">Create Project</h1>
+    <p class="mt-1 text-sm" style="color: var(--color-ink-500);">Set up a new project to monitor infrastructure</p>
+  </div>
+
+  <!-- Form -->
+  <div class="rounded-2xl border p-6" style="background: #FFFFFE; border-color: var(--color-cream-200);">
+    <%= form_with model: @project, url: dashboard_projects_path, class: "space-y-6" do |f| %>
+      <% if @project.errors.any? %>
+        <div class="rounded-xl px-4 py-3 text-sm" style="background: rgba(239, 68, 68, 0.1); color: #991B1B;">
+          <ul class="list-disc list-inside">
+            <% @project.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+
+      <div>
+        <%= f.label :name, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+        <%= f.text_field :name,
+            class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
+            style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+            placeholder: "My Infrastructure" %>
+      </div>
+
+      <div>
+        <%= f.label :platform_project_id, "Platform Project ID (Optional)", class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+        <%= f.text_field :platform_project_id,
+            class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
+            style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+            placeholder: "Leave blank to auto-generate" %>
+        <p class="mt-1.5 text-xs" style="color: var(--color-ink-400);">Link to a Platform project, or leave blank to create a standalone project</p>
+      </div>
+
+      <div>
+        <%= f.label :environment, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+        <%= f.select :environment,
+            [['Production', 'production'], ['Staging', 'staging'], ['Development', 'development']],
+            {},
+            class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
+            style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-4">
+        <%= link_to "Cancel", dashboard_root_path,
+            class: "px-4 py-2.5 rounded-xl text-sm font-medium transition",
+            style: "color: var(--color-ink-600);" %>
+        <%= f.submit "Create Project",
+            class: "px-5 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90 cursor-pointer",
+            style: "background: var(--color-sentinel);" %>
+      </div>
+    <% end %>
+  </div>
+</div>

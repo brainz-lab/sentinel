@@ -6,6 +6,7 @@ class Project < ApplicationRecord
   validates :platform_project_id, presence: true, uniqueness: true
   validates :name, presence: true
 
+  before_validation :generate_platform_project_id, on: :create
   before_validation :generate_slug, on: :create
 
   scope :by_platform_id, ->(id) { find_by(platform_project_id: id) }
@@ -35,6 +36,10 @@ class Project < ApplicationRecord
   end
 
   private
+
+  def generate_platform_project_id
+    self.platform_project_id = SecureRandom.uuid if platform_project_id.blank?
+  end
 
   def generate_slug
     self.slug ||= name&.parameterize
