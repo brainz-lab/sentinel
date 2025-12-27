@@ -1,0 +1,51 @@
+<div class="space-y-6">
+  <h1 class="text-2xl font-bold text-gray-900">Infrastructure Overview</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="text-sm font-medium text-gray-500">Total Hosts</div>
+      <div class="mt-1 text-3xl font-semibold text-gray-900"><%= @host_count %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="text-sm font-medium text-gray-500">Online</div>
+      <div class="mt-1 text-3xl font-semibold text-green-600"><%= @online_count %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="text-sm font-medium text-gray-500">Offline</div>
+      <div class="mt-1 text-3xl font-semibold text-red-600"><%= @offline_count %></div>
+    </div>
+    <div class="bg-white rounded-lg shadow p-6">
+      <div class="text-sm font-medium text-gray-500">Alert Rules</div>
+      <div class="mt-1 text-3xl font-semibold text-gray-900"><%= @alert_count %></div>
+    </div>
+  </div>
+
+  <div class="bg-white rounded-lg shadow">
+    <div class="px-6 py-4 border-b border-gray-200">
+      <h2 class="text-lg font-medium text-gray-900">Recent Hosts</h2>
+    </div>
+    <div class="divide-y divide-gray-200">
+      <% @hosts.each do |host| %>
+        <div class="px-6 py-4 flex items-center justify-between">
+          <div>
+            <div class="font-medium text-gray-900"><%= host.hostname %></div>
+            <div class="text-sm text-gray-500"><%= host.host_group&.name || 'No group' %></div>
+          </div>
+          <div class="flex items-center space-x-2">
+            <% if host.last_seen_at && host.last_seen_at > 2.minutes.ago %>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Online</span>
+            <% else %>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Offline</span>
+            <% end %>
+            <a href="/dashboard/hosts/<%= host.id %>" class="text-indigo-600 hover:text-indigo-900 text-sm">View</a>
+          </div>
+        </div>
+      <% end %>
+      <% if @hosts.empty? %>
+        <div class="px-6 py-8 text-center text-gray-500">
+          No hosts registered yet. Install the Sentinel agent on your servers to start monitoring.
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

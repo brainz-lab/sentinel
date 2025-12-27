@@ -48,5 +48,8 @@ module Sentinel
 
     # Use Solid Queue for background jobs
     config.active_job.queue_adapter = :solid_queue
+
+    # Use SQL schema format for TimescaleDB compatibility
+    config.active_record.schema_format = :sql
   end
 end

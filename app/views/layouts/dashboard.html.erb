@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+  <title>Sentinel - <%= content_for(:title) || "Infrastructure Monitoring" %></title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+<body class="h-full antialiased" style="font-family: 'Inter', system-ui, sans-serif; background: #FAF9F7;">
+  <div class="min-h-full">
+    <!-- Header -->
+    <header class="border-b" style="border-color: #E8E5E0; background: #FFFFFE;">
+      <div class="mx-auto max-w-5xl px-6">
+        <div class="flex h-16 items-center justify-between">
+          <%= link_to "/dashboard", class: "flex items-center gap-2.5" do %>
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="2" width="16" height="16" rx="3" fill="#6366F1"/>
+              <path d="M6 10h8M10 6v8" stroke="white" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            <span class="text-[15px] font-semibold tracking-tight" style="color: #1A1A1A;">Sentinel</span>
+          <% end %>
+
+          <div class="flex items-center gap-6">
+            <nav class="flex items-center gap-4 text-[13px]">
+              <% overview_active = request.path == '/dashboard' %>
+              <% hosts_active = request.path.start_with?('/dashboard/hosts') %>
+              <% groups_active = request.path.start_with?('/dashboard/host_groups') %>
+              <% alerts_active = request.path.start_with?('/dashboard/alert_rules') %>
+              <%= link_to "Overview", "/dashboard", class: "font-medium transition-colors", style: "color: #{overview_active ? '#1A1A1A' : '#8B8780'};" %>
+              <%= link_to "Hosts", "/dashboard/hosts", class: "font-medium transition-colors", style: "color: #{hosts_active ? '#1A1A1A' : '#8B8780'};" %>
+              <%= link_to "Groups", "/dashboard/host_groups", class: "font-medium transition-colors", style: "color: #{groups_active ? '#1A1A1A' : '#8B8780'};" %>
+              <%= link_to "Alerts", "/dashboard/alert_rules", class: "font-medium transition-colors", style: "color: #{alerts_active ? '#1A1A1A' : '#8B8780'};" %>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main -->
+    <main class="mx-auto max-w-5xl px-6 py-10">
+      <% if notice %>
+        <div class="mb-6 px-4 py-3 rounded-lg text-[14px]" style="background: #E8F5E8; color: #2D5A2D;">
+          <%= notice %>
+        </div>
+      <% end %>
+      <% if alert %>
+        <div class="mb-6 px-4 py-3 rounded-lg text-[14px]" style="background: #FEE8E8; color: #8B2D2D;">
+          <%= alert %>
+        </div>
+      <% end %>
+      <%= yield %>
+    </main>
+  </div>
+</body>
+</html>
