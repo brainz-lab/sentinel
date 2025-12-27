@@ -1,9 +1,10 @@
 class AlertRule < ApplicationRecord
+  belongs_to :project
+
   validates :name, presence: true
   validates :metric, presence: true
   validates :operator, presence: true
   validates :threshold, presence: true, numericality: true
-  validates :platform_project_id, presence: true
 
   METRICS = %w[
     cpu_usage memory_usage swap_usage load_1m load_5m load_15m
@@ -17,7 +18,6 @@ class AlertRule < ApplicationRecord
   SEVERITIES = %w[info warning critical].freeze
 
   scope :enabled, -> { where(enabled: true) }
-  scope :for_project, ->(project_id) { where(platform_project_id: project_id) }
 
   def evaluate_all
     hosts_in_scope.each do |host|
@@ -28,14 +28,13 @@ class AlertRule < ApplicationRecord
   def hosts_in_scope
     case scope_type
     when 'all'
-      Host.where(platform_project_id: platform_project_id)
+      project.hosts
     when 'group'
       Host.where(host_group_id: scope_group_id)
     when 'host'
       Host.where(id: scope_host_id)
     when 'tag'
-      Host.where(platform_project_id: platform_project_id)
-          .where('tags @> ?', scope_tags.to_json)
+      project.hosts.where('tags @> ?', scope_tags.to_json)
     else
       Host.none
     end

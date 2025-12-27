@@ -7,18 +7,23 @@ Rails.application.routes.draw do
 
   # Dashboard routes
   namespace :dashboard do
-    root to: 'overview#index'
+    root to: 'projects#index'
 
-    resources :hosts do
-      member do
-        get :metrics
-        get :processes
-        get :containers
+    resources :projects, only: [:index, :show, :new, :create] do
+      # Project-scoped resources
+      root to: 'overview#index', as: :overview
+
+      resources :hosts do
+        member do
+          get :metrics
+          get :processes
+          get :containers
+        end
       end
-    end
 
-    resources :host_groups
-    resources :alert_rules
+      resources :host_groups
+      resources :alert_rules
+    end
   end
 
   # API v1

@@ -1,4 +1,5 @@
 class Host < ApplicationRecord
+  belongs_to :project
   belongs_to :host_group, optional: true
 
   has_many :host_metrics, dependent: :delete_all
@@ -9,8 +10,7 @@ class Host < ApplicationRecord
 
   validates :name, presence: true
   validates :hostname, presence: true
-  validates :agent_id, presence: true, uniqueness: { scope: :platform_project_id }
-  validates :platform_project_id, presence: true
+  validates :agent_id, presence: true, uniqueness: { scope: :project_id }
 
   enum :status, {
     unknown: 'unknown',
@@ -25,7 +25,6 @@ class Host < ApplicationRecord
   scope :by_environment, ->(env) { where(environment: env) }
   scope :by_role, ->(role) { where(role: role) }
   scope :stale, -> { where('last_seen_at < ?', 5.minutes.ago) }
-  scope :for_project, ->(project_id) { where(platform_project_id: project_id) }
 
   after_save :auto_assign_group, if: :saved_change_to_tags?
 
@@ -103,7 +102,7 @@ class Host < ApplicationRecord
   end
 
   def auto_assign_group
-    HostGroup.where(platform_project_id: platform_project_id).find_each do |group|
+    project.host_groups.find_each do |group|
       if group.matches?(self)
         update_column(:host_group_id, group.id)
         return

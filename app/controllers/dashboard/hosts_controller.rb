@@ -1,41 +1,50 @@
 module Dashboard
   class HostsController < BaseController
+    before_action :require_project!
     before_action :set_host, only: [:show, :edit, :update, :destroy, :metrics, :processes, :containers]
 
     def index
-      @hosts = Host.includes(:host_group).order(created_at: :desc)
+      @hosts = current_project.hosts.includes(:host_group).order(created_at: :desc)
+      @host_groups = current_project.host_groups
     end
 
     def show
+      @metrics = @host.host_metrics.order(recorded_at: :desc).limit(60)
+      @disk_usage = @host.disk_usage
+      @containers = @host.containers.limit(10)
     end
 
     def new
-      @host = Host.new
+      @host = current_project.hosts.build
+      @host_groups = current_project.host_groups
     end
 
     def create
-      @host = Host.new(host_params)
+      @host = current_project.hosts.build(host_params)
       if @host.save
-        redirect_to dashboard_host_path(@host), notice: "Host created successfully"
+        redirect_to dashboard_project_host_path(current_project, @host), notice: "Host created successfully"
       else
+        @host_groups = current_project.host_groups
         render :new, status: :unprocessable_entity
       end
     end
 
     def edit
+      @host_groups = current_project.host_groups
     end
 
     def update
       if @host.update(host_params)
-        redirect_to dashboard_host_path(@host), notice: "Host updated successfully"
+        redirect_to dashboard_project_host_path(current_project, @host), notice: "Host updated successfully"
       else
+        @host_groups = current_project.host_groups
         render :edit, status: :unprocessable_entity
       end
     end
 
     def destroy
       @host.destroy
-      redirect_to dashboard_hosts_path, notice: "Host deleted successfully"
+      redirect_to dashboard_project_hosts_path(current_project), notice: "Host deleted successfully"
     end
 
     def metrics
@@ -43,7 +52,7 @@ module Dashboard
     end
 
     def processes
-      @processes = @host.process_snapshots.order(recorded_at: :desc).first&.processes || []
+      @processes = @host.top_processes(limit: 20)
     end
 
     def containers
@@ -53,11 +62,11 @@ module Dashboard
     private
 
     def set_host
-      @host = Host.find(params[:id])
+      @host = current_project.hosts.find(params[:id])
     end
 
     def host_params
-      params.require(:host).permit(:hostname, :display_name, :host_group_id, :tags)
+      params.require(:host).permit(:name, :hostname, :host_group_id, :environment, :role, tags: {})
     end
   end
 end

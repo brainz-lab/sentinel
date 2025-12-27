@@ -1,10 +1,8 @@
 class HostGroup < ApplicationRecord
+  belongs_to :project
   has_many :hosts, dependent: :nullify
 
-  validates :name, presence: true, uniqueness: { scope: :platform_project_id }
-  validates :platform_project_id, presence: true
-
-  scope :for_project, ->(project_id) { where(platform_project_id: project_id) }
+  validates :name, presence: true, uniqueness: { scope: :project_id }
 
   def matches?(host)
     return true if auto_assign_rules.blank?

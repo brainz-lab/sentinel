@@ -17,22 +17,19 @@ module Dashboard
     end
 
     def current_user
-      @current_user ||= {
-        id: session[:user_id],
-        email: session[:email],
-        name: session[:name],
+      @current_user ||= OpenStruct.new(
+        id: session[:user_id] || 'dev-user',
+        email: session[:email] || 'dev@example.com',
+        name: session[:name] || 'Developer',
         organization_id: session[:organization_id]
-      }
+      )
     end
 
     def set_current_project
-      # Sentinel is infrastructure monitoring - projects are optional
-      # In development, skip project requirement
-      return if Rails.env.development?
-
-      if params[:project_id] && defined?(Project)
+      if params[:project_id].present?
         @current_project = Project.find(params[:project_id])
-      elsif session[:current_project_id] && defined?(Project)
+        session[:current_project_id] = @current_project.id
+      elsif session[:current_project_id].present?
         @current_project = Project.find_by(id: session[:current_project_id])
       end
     end
