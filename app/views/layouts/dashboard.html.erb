@@ -11,36 +11,54 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     :root {
-      --color-cream-50: #FAF9F7;
-      --color-cream-100: #F5F3EF;
-      --color-cream-200: #E8E5E0;
-      --color-ink-900: #1A1A1A;
-      --color-ink-700: #3D3D3D;
-      --color-ink-600: #525252;
-      --color-ink-500: #6B6B6B;
-      --color-ink-400: #8B8780;
-      --color-ink-300: #A8A29E;
-      --color-sentinel: #E07A5F;
-      --color-sentinel-dark: #C86B52;
+      /* Background - Warm Cream/Beige (Anthropic inspired) */
+      --color-cream-50: #FDFCFB;
+      --color-cream-100: #F5F5F0;
+      --color-cream-200: #EBE8E3;
+      --color-cream-300: #DDD8CF;
+      /* Text - Refined Charcoal */
+      --color-ink-900: #1C1B1A;
+      --color-ink-800: #3A3835;
+      --color-ink-700: #4B4843;
+      --color-ink-600: #5D5953;
+      --color-ink-500: #75716A;
+      --color-ink-400: #918D86;
+      --color-ink-300: #BBB8B3;
+      /* Brand - Anthropic Orange */
+      --color-sentinel: #EA580C;
+      --color-sentinel-light: #FB923C;
+      --color-sentinel-dark: #C2410C;
+      /* Status Colors */
       --color-success: #22C55E;
       --color-warning: #F59E0B;
       --color-error: #EF4444;
     }
-    body { font-family: 'Inter', system-ui, sans-serif; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 0.5rem; height: 0.5rem; }
+    ::-webkit-scrollbar-track { background: var(--color-cream-100); }
+    ::-webkit-scrollbar-thumb { background: var(--color-cream-300); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-ink-400); }
+    /* Selection */
+    ::selection { background: rgba(234, 88, 12, 0.15); }
   </style>
 </head>
-<body class="h-full antialiased" style="background: var(--color-cream-50);">
+<body class="h-full antialiased" style="background: var(--color-cream-100);">
   <div class="flex h-full">
     <!-- Sidebar -->
-    <aside class="w-64 border-r flex flex-col" style="border-color: var(--color-cream-200); background: #FFFFFE;">
-      <div class="p-5 border-b" style="border-color: var(--color-cream-100);">
-        <%= link_to dashboard_root_path, class: "flex items-center gap-2.5" do %>
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--color-sentinel);">
+    <aside class="w-64 border-r flex flex-col" style="border-color: var(--color-cream-200); background: linear-gradient(180deg, #FFFFFF 0%, #FDFCFB 100%);">
+      <div class="p-5 border-b" style="border-color: var(--color-cream-200);">
+        <%= link_to dashboard_root_path, class: "flex items-center gap-2.5 group" do %>
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105" style="background: linear-gradient(135deg, #F97316 0%, #EA580C 100%); box-shadow: 0 2px 4px rgba(234, 88, 12, 0.25);">
             <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
             </svg>
           </div>
-          <span class="font-semibold" style="color: var(--color-ink-900);">Sentinel</span>
+          <span class="font-semibold tracking-tight" style="color: var(--color-ink-900);">Sentinel</span>
         <% end %>
       </div>
 
@@ -107,9 +125,9 @@
       <% end %>
 
       <!-- User Menu -->
-      <div class="p-4 border-t" style="border-color: var(--color-cream-100);">
+      <div class="p-4 border-t" style="border-color: var(--color-cream-200);">
         <div class="flex items-center gap-3">
-          <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold" style="background: rgba(224, 122, 95, 0.15); color: var(--color-sentinel);">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-semibold" style="background: linear-gradient(135deg, rgba(249, 115, 22, 0.12) 0%, rgba(234, 88, 12, 0.18) 100%); color: var(--color-sentinel);">
             <%= current_user.name&.first&.upcase || current_user.email.first.upcase %>
           </div>
           <div class="flex-1 min-w-0">

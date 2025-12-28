@@ -4,12 +4,12 @@
   <!-- Header -->
   <div class="flex items-center justify-between">
     <div>
-      <h1 class="text-2xl font-semibold" style="color: var(--color-ink-900);">Hosts</h1>
+      <h1 class="text-2xl font-semibold tracking-tight" style="color: var(--color-ink-900);">Hosts</h1>
       <p class="mt-1 text-sm" style="color: var(--color-ink-500);"><%= @hosts.count %> hosts in <%= current_project.name %></p>
     </div>
     <%= link_to dashboard_project_new_host_path(current_project),
-        class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90",
-        style: "background: var(--color-sentinel);" do %>
+        class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all hover:-translate-y-0.5",
+        style: "background: linear-gradient(180deg, #F97316 0%, #EA580C 100%); box-shadow: 0 1px 2px rgba(234, 88, 12, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);" do %>
       <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
       </svg>
@@ -19,7 +19,7 @@
 
   <% if @hosts.any? %>
     <!-- Hosts Table -->
-    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFE; border-color: var(--color-cream-200);">
+    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFF; border-color: var(--color-cream-200); box-shadow: 0 1px 3px rgba(28, 27, 26, 0.04);">
       <table class="w-full">
         <thead>
           <tr style="background: var(--color-cream-50);">
@@ -105,9 +105,9 @@
     </div>
   <% else %>
     <!-- Empty State -->
-    <div class="rounded-2xl border p-12 text-center" style="background: #FFFFFE; border-color: var(--color-cream-200);">
+    <div class="rounded-2xl border p-12 text-center" style="background: #FFFFFF; border-color: var(--color-cream-200); box-shadow: 0 1px 3px rgba(28, 27, 26, 0.04);">
       <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-4"
-           style="background: var(--color-cream-100);">
+           style="background: linear-gradient(135deg, var(--color-cream-100) 0%, var(--color-cream-200) 100%);">
         <svg class="w-8 h-8" style="color: var(--color-ink-400);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2"/>
         </svg>
@@ -115,14 +115,14 @@
       <h3 class="font-semibold mb-1" style="color: var(--color-ink-900);">No hosts registered</h3>
       <p class="text-sm mb-6 max-w-sm mx-auto" style="color: var(--color-ink-500);">Install the Sentinel agent on your servers to start monitoring</p>
 
-      <div class="rounded-xl p-4 text-left max-w-md mx-auto mb-6" style="background: var(--color-cream-50);">
+      <div class="rounded-xl p-4 text-left max-w-md mx-auto mb-6 border" style="background: var(--color-cream-50); border-color: var(--color-cream-200);">
         <p class="text-xs font-medium mb-2" style="color: var(--color-ink-500);">Quick install</p>
-        <code class="text-sm font-mono" style="color: var(--color-ink-700);">curl -sSL sentinel.brainzlab.ai/install | bash</code>
+        <code class="text-sm font-mono" style="color: var(--color-sentinel);">curl -sSL sentinel.brainzlab.ai/install | bash</code>
       </div>
 
       <%= link_to dashboard_project_new_host_path(current_project),
-          class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90",
-          style: "background: var(--color-sentinel);" do %>
+          class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all hover:-translate-y-0.5",
+          style: "background: linear-gradient(180deg, #F97316 0%, #EA580C 100%); box-shadow: 0 1px 2px rgba(234, 88, 12, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);" do %>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
         </svg>

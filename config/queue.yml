@@ -2,11 +2,6 @@ default: &default
   dispatchers:
     - polling_interval: 1
       batch_size: 500
-  workers:
-    - queues: "*"
-      threads: 3
-      processes: <%= ENV.fetch("JOB_CONCURRENCY", 1) %>
-      polling_interval: 0.1
 
 development:
   # Use single-process mode in development to avoid fork-related DB connection issues
@@ -21,6 +16,23 @@ development:
 
 test:
   <<: *default
+  workers:
+    - queues: "*"
+      threads: 3
+      processes: 1
+      polling_interval: 0.1
 
 production:
   <<: *default
+  workers:
+    # High priority - metrics aggregation and health checks
+    - queues: [default]
+      threads: <%= ENV.fetch("DEFAULT_WORKER_THREADS", 5) %>
+      processes: <%= ENV.fetch("DEFAULT_WORKER_PROCESSES", 2) %>
+      polling_interval: 0.1
+
+    # Low priority - cleanup and maintenance
+    - queues: [low]
+      threads: <%= ENV.fetch("LOW_WORKER_THREADS", 2) %>
+      processes: <%= ENV.fetch("LOW_WORKER_PROCESSES", 1) %>
+      polling_interval: 1
