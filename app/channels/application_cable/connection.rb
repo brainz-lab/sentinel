@@ -11,7 +11,7 @@ module ApplicationCable
     def find_verified_project
       # For now, accept connections with any project ID from query params
       # In production, verify against Platform
-      request.params[:project_id] || 'development'
+      request.params[:project_id] || "development"
     end
   end
 end

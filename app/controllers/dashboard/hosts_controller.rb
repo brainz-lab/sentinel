@@ -1,7 +1,7 @@
 module Dashboard
   class HostsController < BaseController
     before_action :require_project!
-    before_action :set_host, only: [:show, :edit, :update, :destroy, :metrics, :processes, :containers]
+    before_action :set_host, only: [ :show, :edit, :update, :destroy, :metrics, :processes, :containers ]
 
     def index
       @hosts = current_project.hosts.includes(:host_group).order(created_at: :desc)

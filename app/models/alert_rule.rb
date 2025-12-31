@@ -27,14 +27,14 @@ class AlertRule < ApplicationRecord
 
   def hosts_in_scope
     case scope_type
-    when 'all'
+    when "all"
       project.hosts
-    when 'group'
+    when "group"
       Host.where(host_group_id: scope_group_id)
-    when 'host'
+    when "host"
       Host.where(id: scope_host_id)
-    when 'tag'
-      project.hosts.where('tags @> ?', scope_tags.to_json)
+    when "tag"
+      project.hosts.where("tags @> ?", scope_tags.to_json)
     else
       Host.none
     end
@@ -57,21 +57,21 @@ class AlertRule < ApplicationRecord
 
   def fetch_metric_value(host)
     case metric
-    when 'cpu_usage'
+    when "cpu_usage"
       host.host_metrics
-          .where('recorded_at > ?', duration_seconds.seconds.ago)
+          .where("recorded_at > ?", duration_seconds.seconds.ago)
           .send(aggregation, :cpu_usage_percent) || 0
-    when 'memory_usage'
+    when "memory_usage"
       host.host_metrics
-          .where('recorded_at > ?', duration_seconds.seconds.ago)
+          .where("recorded_at > ?", duration_seconds.seconds.ago)
           .send(aggregation, :memory_usage_percent) || 0
-    when 'disk_usage'
-      scope = host.disk_metrics.where('recorded_at > ?', duration_seconds.seconds.ago)
+    when "disk_usage"
+      scope = host.disk_metrics.where("recorded_at > ?", duration_seconds.seconds.ago)
       scope = scope.where(mount_point: mount_point) if mount_point.present?
       scope.send(aggregation, :usage_percent) || 0
-    when 'load_1m'
+    when "load_1m"
       host.host_metrics
-          .where('recorded_at > ?', duration_seconds.seconds.ago)
+          .where("recorded_at > ?", duration_seconds.seconds.ago)
           .send(aggregation, :load_1m) || 0
     else
       0
@@ -80,11 +80,11 @@ class AlertRule < ApplicationRecord
 
   def check_threshold(value)
     case operator
-    when 'gt' then value > threshold
-    when 'gte' then value >= threshold
-    when 'lt' then value < threshold
-    when 'lte' then value <= threshold
-    when 'eq' then value == threshold
+    when "gt" then value > threshold
+    when "gte" then value >= threshold
+    when "lt" then value < threshold
+    when "lte" then value <= threshold
+    when "eq" then value == threshold
     else false
     end
   end
@@ -94,12 +94,12 @@ class AlertRule < ApplicationRecord
   end
 
   def add_firing_host(host)
-    self.currently_firing_hosts = (currently_firing_hosts + [host.id]).uniq
+    self.currently_firing_hosts = (currently_firing_hosts + [ host.id ]).uniq
     save!
   end
 
   def remove_firing_host(host)
-    self.currently_firing_hosts = currently_firing_hosts - [host.id]
+    self.currently_firing_hosts = currently_firing_hosts - [ host.id ]
     save!
   end
 

@@ -30,7 +30,7 @@ class CreateContainerMetrics < ActiveRecord::Migration[8.0]
       t.integer :pids_current
       t.integer :pids_limit
 
-      t.index [:container_id, :recorded_at]
+      t.index [ :container_id, :recorded_at ]
     end
 
     reversible do |dir|

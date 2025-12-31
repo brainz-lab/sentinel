@@ -29,8 +29,8 @@ class CreateContainers < ActiveRecord::Migration[8.0]
 
       t.timestamps
 
-      t.index [:host_id, :container_id], unique: true
-      t.index [:host_id, :status]
+      t.index [ :host_id, :container_id ], unique: true
+      t.index [ :host_id, :status ]
     end
   end
 end

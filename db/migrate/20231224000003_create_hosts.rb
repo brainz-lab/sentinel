@@ -49,10 +49,10 @@ class CreateHosts < ActiveRecord::Migration[8.0]
       t.timestamps
 
       t.index :platform_project_id
-      t.index [:platform_project_id, :agent_id], unique: true
-      t.index [:platform_project_id, :status]
-      t.index [:platform_project_id, :environment]
-      t.index [:platform_project_id, :role]
+      t.index [ :platform_project_id, :agent_id ], unique: true
+      t.index [ :platform_project_id, :status ]
+      t.index [ :platform_project_id, :environment ]
+      t.index [ :platform_project_id, :role ]
       t.index :last_seen_at
     end
   end

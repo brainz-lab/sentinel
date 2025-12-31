@@ -36,7 +36,7 @@ class CreateAlertRules < ActiveRecord::Migration[8.0]
 
       t.timestamps
 
-      t.index [:platform_project_id, :enabled]
+      t.index [ :platform_project_id, :enabled ]
       t.index :platform_project_id
     end
   end

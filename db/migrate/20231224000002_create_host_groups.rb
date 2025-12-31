@@ -12,7 +12,7 @@ class CreateHostGroups < ActiveRecord::Migration[8.0]
 
       t.timestamps
 
-      t.index [:platform_project_id, :name], unique: true
+      t.index [ :platform_project_id, :name ], unique: true
       t.index :platform_project_id
     end
   end

@@ -1,7 +1,7 @@
 class ProcessSnapshot < ApplicationRecord
   belongs_to :host
 
-  scope :recent, -> { where('recorded_at > ?', 5.minutes.ago) }
+  scope :recent, -> { where("recorded_at > ?", 5.minutes.ago) }
   scope :by_cpu, -> { order(cpu_percent: :desc) }
   scope :by_memory, -> { order(memory_percent: :desc) }
 

@@ -1,43 +1,43 @@
 module Mcp
   module Tools
     class TopProcesses < Base
-      TOOL_NAME = 'sentinel_top_processes'
-      DESCRIPTION = 'Get top processes by CPU or memory usage'
+      TOOL_NAME = "sentinel_top_processes"
+      DESCRIPTION = "Get top processes by CPU or memory usage"
 
       SCHEMA = {
-        type: 'object',
+        type: "object",
         properties: {
           host_name: {
-            type: 'string',
-            description: 'Host name'
+            type: "string",
+            description: "Host name"
           },
           sort_by: {
-            type: 'string',
-            enum: ['cpu', 'memory'],
-            default: 'cpu'
+            type: "string",
+            enum: [ "cpu", "memory" ],
+            default: "cpu"
           },
           limit: {
-            type: 'integer',
+            type: "integer",
             default: 10
           }
         },
-        required: ['host_name']
+        required: [ "host_name" ]
       }.freeze
 
       def call(args)
         host = hosts.find_by!(name: args[:host_name])
-        sort_by = args[:sort_by] || 'cpu'
+        sort_by = args[:sort_by] || "cpu"
         limit = args[:limit] || 10
 
         processes = host.process_snapshots
-                        .where('recorded_at > ?', 2.minutes.ago)
+                        .where("recorded_at > ?", 2.minutes.ago)
 
         processes = case sort_by
-                    when 'memory'
+        when "memory"
                       processes.order(memory_percent: :desc)
-                    else
+        else
                       processes.order(cpu_percent: :desc)
-                    end
+        end
 
         processes = processes.limit(limit)
 

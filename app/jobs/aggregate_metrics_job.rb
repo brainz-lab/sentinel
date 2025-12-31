@@ -22,7 +22,7 @@ class AggregateMetricsJob < ApplicationJob
     ActionCable.server.broadcast(
       "hosts_#{project_id}",
       {
-        type: 'fleet_stats',
+        type: "fleet_stats",
         overview: overview,
         capacity: capacity,
         updated_at: Time.current

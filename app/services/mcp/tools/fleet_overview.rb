@@ -1,11 +1,11 @@
 module Mcp
   module Tools
     class FleetOverview < Base
-      TOOL_NAME = 'sentinel_fleet_overview'
-      DESCRIPTION = 'Get overview of all hosts in the fleet'
+      TOOL_NAME = "sentinel_fleet_overview"
+      DESCRIPTION = "Get overview of all hosts in the fleet"
 
       SCHEMA = {
-        type: 'object',
+        type: "object",
         properties: {}
       }.freeze
 

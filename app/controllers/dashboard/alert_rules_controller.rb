@@ -1,7 +1,7 @@
 module Dashboard
   class AlertRulesController < BaseController
     before_action :require_project!
-    before_action :set_alert_rule, only: [:show, :edit, :update, :destroy]
+    before_action :set_alert_rule, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @alert_rules = current_project.alert_rules.order(created_at: :desc)
@@ -13,9 +13,9 @@ module Dashboard
 
     def new
       @alert_rule = current_project.alert_rules.build(
-        scope_type: 'all',
-        operator: 'gt',
-        severity: 'warning',
+        scope_type: "all",
+        operator: "gt",
+        severity: "warning",
         duration_seconds: 300
       )
       @host_groups = current_project.host_groups

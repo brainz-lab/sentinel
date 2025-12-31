@@ -34,30 +34,30 @@ class DetectAnomaliesJob < ApplicationJob
   end
 
   def check_cpu_anomaly(host)
-    recent = host.host_metrics.where('recorded_at > ?', 1.hour.ago).pluck(:cpu_usage_percent).compact
-    historical = host.host_metrics.where('recorded_at > ?', 24.hours.ago)
-                                  .where('recorded_at < ?', 1.hour.ago)
+    recent = host.host_metrics.where("recorded_at > ?", 1.hour.ago).pluck(:cpu_usage_percent).compact
+    historical = host.host_metrics.where("recorded_at > ?", 24.hours.ago)
+                                  .where("recorded_at < ?", 1.hour.ago)
                                   .pluck(:cpu_usage_percent).compact
 
-    detect_anomaly(host, 'cpu_usage', recent, historical)
+    detect_anomaly(host, "cpu_usage", recent, historical)
   end
 
   def check_memory_anomaly(host)
-    recent = host.host_metrics.where('recorded_at > ?', 1.hour.ago).pluck(:memory_usage_percent).compact
-    historical = host.host_metrics.where('recorded_at > ?', 24.hours.ago)
-                                  .where('recorded_at < ?', 1.hour.ago)
+    recent = host.host_metrics.where("recorded_at > ?", 1.hour.ago).pluck(:memory_usage_percent).compact
+    historical = host.host_metrics.where("recorded_at > ?", 24.hours.ago)
+                                  .where("recorded_at < ?", 1.hour.ago)
                                   .pluck(:memory_usage_percent).compact
 
-    detect_anomaly(host, 'memory_usage', recent, historical)
+    detect_anomaly(host, "memory_usage", recent, historical)
   end
 
   def check_load_anomaly(host)
-    recent = host.host_metrics.where('recorded_at > ?', 1.hour.ago).pluck(:load_1m).compact
-    historical = host.host_metrics.where('recorded_at > ?', 24.hours.ago)
-                                  .where('recorded_at < ?', 1.hour.ago)
+    recent = host.host_metrics.where("recorded_at > ?", 1.hour.ago).pluck(:load_1m).compact
+    historical = host.host_metrics.where("recorded_at > ?", 24.hours.ago)
+                                  .where("recorded_at < ?", 1.hour.ago)
                                   .pluck(:load_1m).compact
 
-    detect_anomaly(host, 'load', recent, historical)
+    detect_anomaly(host, "load", recent, historical)
   end
 
   def detect_anomaly(host, metric_name, recent, historical)
@@ -73,14 +73,14 @@ class DetectAnomaliesJob < ApplicationJob
     zscore = (current - mean) / std_dev
 
     if zscore.abs > ZSCORE_THRESHOLD
-      [{
+      [ {
         metric: metric_name,
         current_value: current.round(2),
         expected_mean: mean.round(2),
         std_dev: std_dev.round(2),
         zscore: zscore.round(2),
-        direction: zscore > 0 ? 'high' : 'low'
-      }]
+        direction: zscore > 0 ? "high" : "low"
+      } ]
     else
       []
     end
@@ -90,7 +90,7 @@ class DetectAnomaliesJob < ApplicationJob
     ActionCable.server.broadcast(
       "hosts_#{host.platform_project_id}",
       {
-        type: 'anomaly_detected',
+        type: "anomaly_detected",
         host_id: host.id,
         host_name: host.name,
         anomalies: anomalies,

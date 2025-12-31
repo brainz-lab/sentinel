@@ -29,8 +29,8 @@ class CreateProcessSnapshots < ActiveRecord::Migration[8.0]
       t.bigint :cpu_time_ms
       t.datetime :started_at
 
-      t.index [:host_id, :recorded_at]
-      t.index [:host_id, :name, :recorded_at]
+      t.index [ :host_id, :recorded_at ]
+      t.index [ :host_id, :name, :recorded_at ]
     end
 
     reversible do |dir|

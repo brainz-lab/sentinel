@@ -22,7 +22,7 @@ class CleanupOldMetricsJob < ApplicationJob
     # Clean up metrics for hosts that no longer exist
     host_ids = Host.pluck(:id)
 
-    [HostMetric, DiskMetric, NetworkMetric, ProcessSnapshot].each do |model|
+    [ HostMetric, DiskMetric, NetworkMetric, ProcessSnapshot ].each do |model|
       deleted = model.where.not(host_id: host_ids).delete_all
       Rails.logger.info "[Sentinel] Cleaned up #{deleted} orphaned #{model.name.underscore.pluralize}" if deleted > 0
     end
@@ -35,7 +35,7 @@ class CleanupOldMetricsJob < ApplicationJob
 
   def cleanup_old_containers
     # Remove containers that haven't been seen in 24 hours
-    deleted = Container.where('last_seen_at < ?', 24.hours.ago).destroy_all.count
+    deleted = Container.where("last_seen_at < ?", 24.hours.ago).destroy_all.count
     Rails.logger.info "[Sentinel] Cleaned up #{deleted} stale containers" if deleted > 0
   end
 

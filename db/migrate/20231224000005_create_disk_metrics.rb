@@ -27,8 +27,8 @@ class CreateDiskMetrics < ActiveRecord::Migration[8.0]
       t.bigint :write_ops
       t.float :io_time_percent
 
-      t.index [:host_id, :recorded_at]
-      t.index [:host_id, :mount_point, :recorded_at]
+      t.index [ :host_id, :recorded_at ]
+      t.index [ :host_id, :mount_point, :recorded_at ]
     end
 
     reversible do |dir|

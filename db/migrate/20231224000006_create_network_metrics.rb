@@ -24,8 +24,8 @@ class CreateNetworkMetrics < ActiveRecord::Migration[8.0]
       t.integer :tcp_time_wait
       t.integer :tcp_close_wait
 
-      t.index [:host_id, :recorded_at]
-      t.index [:host_id, :interface, :recorded_at]
+      t.index [ :host_id, :recorded_at ]
+      t.index [ :host_id, :interface, :recorded_at ]
     end
 
     reversible do |dir|

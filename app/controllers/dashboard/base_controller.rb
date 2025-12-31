@@ -1,4 +1,4 @@
-require 'ostruct'
+require "ostruct"
 
 module Dashboard
   class BaseController < ActionController::Base
@@ -20,9 +20,9 @@ module Dashboard
 
     def current_user
       @current_user ||= OpenStruct.new(
-        id: session[:user_id] || 'dev-user',
-        email: session[:email] || 'dev@example.com',
-        name: session[:name] || 'Developer',
+        id: session[:user_id] || "dev-user",
+        email: session[:email] || "dev@example.com",
+        name: session[:name] || "Developer",
         organization_id: session[:organization_id]
       )
     end

@@ -38,38 +38,38 @@ module Internal
         agent_version: agent_params[:agent_version],
         agent_started_at: Time.current,
         last_seen_at: Time.current,
-        status: 'online'
+        status: "online"
       )
 
       render json: {
         host_id: host.id,
         name: host.name,
-        message: 'Agent registered successfully'
+        message: "Agent registered successfully"
       }
     end
 
     private
 
     def authenticate_agent
-      api_key = request.headers['Authorization']&.sub(/^Bearer\s+/, '')
+      api_key = request.headers["Authorization"]&.sub(/^Bearer\s+/, "")
 
       unless api_key.present?
-        render json: { error: 'API key required' }, status: :unauthorized
+        render json: { error: "API key required" }, status: :unauthorized
         return
       end
 
       # Validate API key
       @project_id = validate_agent_api_key(api_key)
       unless @project_id
-        render json: { error: 'Invalid API key' }, status: :unauthorized
+        render json: { error: "Invalid API key" }, status: :unauthorized
       end
     end
 
     def validate_agent_api_key(api_key)
       # In production, validate against Platform
       # For development, accept master key
-      if api_key == ENV.fetch('SENTINEL_MASTER_KEY', 'bl_sentinel_master_dev_key_12345')
-        'development'
+      if api_key == ENV.fetch("SENTINEL_MASTER_KEY", "bl_sentinel_master_dev_key_12345")
+        "development"
       else
         # TODO: Validate against Platform API
         nil
@@ -77,7 +77,7 @@ module Internal
     end
 
     def find_or_create_host
-      agent_id = request.headers['X-Agent-ID'] || agent_params[:agent_id]
+      agent_id = request.headers["X-Agent-ID"] || agent_params[:agent_id]
 
       Host.find_or_create_by!(platform_project_id: @project_id, agent_id: agent_id) do |host|
         host.assign_attributes(

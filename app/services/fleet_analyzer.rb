@@ -8,10 +8,10 @@ class FleetAnalyzer
 
     {
       total_hosts: hosts.count,
-      online: hosts.where(status: 'online').count,
-      offline: hosts.where(status: 'offline').count,
-      warning: hosts.where(status: 'warning').count,
-      critical: hosts.where(status: 'critical').count,
+      online: hosts.where(status: "online").count,
+      offline: hosts.where(status: "offline").count,
+      warning: hosts.where(status: "warning").count,
+      critical: hosts.where(status: "critical").count,
 
       by_environment: hosts.group(:environment).count,
       by_role: hosts.group(:role).count,
@@ -24,7 +24,7 @@ class FleetAnalyzer
   end
 
   def capacity_summary
-    hosts = Host.for_project(@project_id).where(status: 'online')
+    hosts = Host.for_project(@project_id).where(status: "online")
 
     {
       total_cpu_cores: hosts.sum(:cpu_cores),
@@ -42,7 +42,7 @@ class FleetAnalyzer
   def aggregate_resources(hosts)
     recent_metrics = HostMetric.joins(:host)
                                .where(hosts: { platform_project_id: @project_id })
-                               .where('host_metrics.recorded_at > ?', 5.minutes.ago)
+                               .where("host_metrics.recorded_at > ?", 5.minutes.ago)
 
     {
       avg_cpu: recent_metrics.average(:cpu_usage_percent)&.round(1) || 0,
@@ -53,7 +53,7 @@ class FleetAnalyzer
 
   def top_by_metric(hosts, metric, limit: 5)
     hosts.joins(:host_metrics)
-         .where('host_metrics.recorded_at > ?', 5.minutes.ago)
+         .where("host_metrics.recorded_at > ?", 5.minutes.ago)
          .select("hosts.*, host_metrics.#{metric} as current_value")
          .order("host_metrics.#{metric} DESC")
          .limit(limit)
@@ -63,7 +63,7 @@ class FleetAnalyzer
   def average_metric(hosts, metric)
     HostMetric.joins(:host)
               .where(hosts: { id: hosts.pluck(:id) })
-              .where('host_metrics.recorded_at > ?', 5.minutes.ago)
+              .where("host_metrics.recorded_at > ?", 5.minutes.ago)
               .average(metric)
               &.round(1) || 0
   end

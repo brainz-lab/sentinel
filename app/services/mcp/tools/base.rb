@@ -1,8 +1,8 @@
 module Mcp
   module Tools
     class Base
-      TOOL_NAME = 'base'
-      DESCRIPTION = 'Base tool'
+      TOOL_NAME = "base"
+      DESCRIPTION = "Base tool"
       SCHEMA = {}.freeze
 
       def initialize(project_id)

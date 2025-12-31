@@ -2,7 +2,7 @@ module Api
   module V1
     class ContainersController < BaseController
       before_action :set_host
-      before_action :set_container, only: [:show]
+      before_action :set_container, only: [ :show ]
 
       # GET /api/v1/hosts/:host_id/containers
       def index

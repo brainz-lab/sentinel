@@ -13,18 +13,18 @@ class Host < ApplicationRecord
   validates :agent_id, presence: true, uniqueness: { scope: :project_id }
 
   enum :status, {
-    unknown: 'unknown',
-    online: 'online',
-    offline: 'offline',
-    warning: 'warning',
-    critical: 'critical'
+    unknown: "unknown",
+    online: "online",
+    offline: "offline",
+    warning: "warning",
+    critical: "critical"
   }, prefix: true
 
-  scope :online, -> { where(status: 'online') }
+  scope :online, -> { where(status: "online") }
   scope :with_issues, -> { where(status: %w[warning critical]) }
   scope :by_environment, ->(env) { where(environment: env) }
   scope :by_role, ->(role) { where(role: role) }
-  scope :stale, -> { where('last_seen_at < ?', 5.minutes.ago) }
+  scope :stale, -> { where("last_seen_at < ?", 5.minutes.ago) }
 
   after_save :auto_assign_group, if: :saved_change_to_tags?
 
@@ -50,21 +50,21 @@ class Host < ApplicationRecord
 
   def disk_usage
     disk_metrics
-      .where('recorded_at > ?', 5.minutes.ago)
-      .select('DISTINCT ON (mount_point) *')
+      .where("recorded_at > ?", 5.minutes.ago)
+      .select("DISTINCT ON (mount_point) *")
       .order(:mount_point, recorded_at: :desc)
   end
 
   def network_usage
     network_metrics
-      .where('recorded_at > ?', 5.minutes.ago)
-      .select('DISTINCT ON (interface) *')
+      .where("recorded_at > ?", 5.minutes.ago)
+      .select("DISTINCT ON (interface) *")
       .order(:interface, recorded_at: :desc)
   end
 
   def top_processes(limit: 10)
     process_snapshots
-      .where('recorded_at > ?', 2.minutes.ago)
+      .where("recorded_at > ?", 2.minutes.ago)
       .order(cpu_percent: :desc)
       .limit(limit)
   end
@@ -74,7 +74,7 @@ class Host < ApplicationRecord
   end
 
   def uptime_humanized
-    return 'Unknown' unless latest_metrics&.uptime_seconds
+    return "Unknown" unless latest_metrics&.uptime_seconds
 
     ActiveSupport::Duration.build(latest_metrics.uptime_seconds).inspect
   end
@@ -87,17 +87,17 @@ class Host < ApplicationRecord
   private
 
   def calculate_status
-    return 'offline' unless online?
+    return "offline" unless online?
 
     metrics = latest_metrics
-    return 'unknown' unless metrics
+    return "unknown" unless metrics
 
     if metrics.cpu_usage_percent.to_f > 95 || metrics.memory_usage_percent.to_f > 95
-      'critical'
+      "critical"
     elsif metrics.cpu_usage_percent.to_f > 80 || metrics.memory_usage_percent.to_f > 85
-      'warning'
+      "warning"
     else
-      'online'
+      "online"
     end
   end
 

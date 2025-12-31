@@ -36,7 +36,7 @@ class CreateHostMetrics < ActiveRecord::Migration[8.0]
       # Uptime
       t.bigint :uptime_seconds
 
-      t.index [:host_id, :recorded_at]
+      t.index [ :host_id, :recorded_at ]
     end
 
     # TimescaleDB hypertable - will be executed if TimescaleDB is available

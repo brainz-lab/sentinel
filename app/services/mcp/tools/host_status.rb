@@ -1,18 +1,18 @@
 module Mcp
   module Tools
     class HostStatus < Base
-      TOOL_NAME = 'sentinel_host_status'
-      DESCRIPTION = 'Get detailed status of a specific host'
+      TOOL_NAME = "sentinel_host_status"
+      DESCRIPTION = "Get detailed status of a specific host"
 
       SCHEMA = {
-        type: 'object',
+        type: "object",
         properties: {
           host_name: {
-            type: 'string',
-            description: 'Host name'
+            type: "string",
+            description: "Host name"
           }
         },
-        required: ['host_name']
+        required: [ "host_name" ]
       }.freeze
 
       def call(args)

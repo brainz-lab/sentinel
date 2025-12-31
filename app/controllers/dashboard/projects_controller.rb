@@ -1,6 +1,6 @@
 module Dashboard
   class ProjectsController < BaseController
-    skip_before_action :set_current_project, only: [:index, :new, :create]
+    skip_before_action :set_current_project, only: [ :index, :new, :create ]
 
     def index
       @projects = Project.order(:name)

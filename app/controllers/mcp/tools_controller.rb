@@ -1,11 +1,11 @@
 module Mcp
   class ToolsController < ApplicationController
     TOOLS = {
-      'sentinel_list_hosts' => Mcp::Tools::ListHosts,
-      'sentinel_host_status' => Mcp::Tools::HostStatus,
-      'sentinel_host_metrics' => Mcp::Tools::HostMetrics,
-      'sentinel_top_processes' => Mcp::Tools::TopProcesses,
-      'sentinel_fleet_overview' => Mcp::Tools::FleetOverview
+      "sentinel_list_hosts" => Mcp::Tools::ListHosts,
+      "sentinel_host_status" => Mcp::Tools::HostStatus,
+      "sentinel_host_metrics" => Mcp::Tools::HostMetrics,
+      "sentinel_top_processes" => Mcp::Tools::TopProcesses,
+      "sentinel_fleet_overview" => Mcp::Tools::FleetOverview
     }.freeze
 
     # GET /mcp/tools
@@ -45,7 +45,7 @@ module Mcp
     end
 
     def set_project_context
-      @project_id = current_project&.id || 'development'
+      @project_id = current_project&.id || "development"
     end
   end
 end

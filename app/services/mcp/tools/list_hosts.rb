@@ -1,24 +1,24 @@
 module Mcp
   module Tools
     class ListHosts < Base
-      TOOL_NAME = 'sentinel_list_hosts'
-      DESCRIPTION = 'List all monitored hosts and their status'
+      TOOL_NAME = "sentinel_list_hosts"
+      DESCRIPTION = "List all monitored hosts and their status"
 
       SCHEMA = {
-        type: 'object',
+        type: "object",
         properties: {
           environment: {
-            type: 'string',
-            description: 'Filter by environment (production, staging, etc.)'
+            type: "string",
+            description: "Filter by environment (production, staging, etc.)"
           },
           status: {
-            type: 'string',
-            enum: ['online', 'offline', 'warning', 'critical'],
-            description: 'Filter by status'
+            type: "string",
+            enum: [ "online", "offline", "warning", "critical" ],
+            description: "Filter by status"
           },
           role: {
-            type: 'string',
-            description: 'Filter by role (web, worker, database, etc.)'
+            type: "string",
+            description: "Filter by role (web, worker, database, etc.)"
           }
         }
       }.freeze
@@ -45,7 +45,7 @@ module Mcp
           end,
           summary: {
             total: result.count,
-            online: result.where(status: 'online').count,
+            online: result.where(status: "online").count,
             issues: result.with_issues.count
           }
         }

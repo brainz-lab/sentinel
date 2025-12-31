@@ -6,9 +6,9 @@ class Container < ApplicationRecord
   validates :container_id, presence: true
   validates :name, presence: true
 
-  scope :running, -> { where(status: 'running') }
-  scope :stopped, -> { where(status: 'exited') }
-  scope :recent, -> { where('last_seen_at > ?', 5.minutes.ago) }
+  scope :running, -> { where(status: "running") }
+  scope :stopped, -> { where(status: "exited") }
+  scope :recent, -> { where("last_seen_at > ?", 5.minutes.ago) }
 
   def latest_metrics
     container_metrics.order(recorded_at: :desc).first
@@ -23,7 +23,7 @@ class Container < ApplicationRecord
   end
 
   def running?
-    status == 'running'
+    status == "running"
   end
 
   def uptime
@@ -32,7 +32,7 @@ class Container < ApplicationRecord
   end
 
   def uptime_humanized
-    return 'Not running' unless uptime
+    return "Not running" unless uptime
     ActiveSupport::Duration.build(uptime.to_i).inspect
   end
 

@@ -1,7 +1,7 @@
 module Dashboard
   class HostGroupsController < BaseController
     before_action :require_project!
-    before_action :set_host_group, only: [:show, :edit, :update, :destroy]
+    before_action :set_host_group, only: [ :show, :edit, :update, :destroy ]
 
     def index
       @host_groups = current_project.host_groups.includes(:hosts).order(:name)
@@ -47,7 +47,7 @@ module Dashboard
     end
 
     def host_group_params
-      params.require(:host_group).permit(:name, :description, auto_assign_rules: [:field, :operator, :value])
+      params.require(:host_group).permit(:name, :description, auto_assign_rules: [ :field, :operator, :value ])
     end
   end
 end

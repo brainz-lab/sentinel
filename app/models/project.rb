@@ -11,7 +11,7 @@ class Project < ApplicationRecord
 
   scope :by_platform_id, ->(id) { find_by(platform_project_id: id) }
 
-  def self.find_or_create_from_platform(platform_project_id:, name:, slug: nil, environment: 'production')
+  def self.find_or_create_from_platform(platform_project_id:, name:, slug: nil, environment: "production")
     find_or_create_by(platform_project_id: platform_project_id) do |project|
       project.name = name
       project.slug = slug || name.parameterize
@@ -24,7 +24,7 @@ class Project < ApplicationRecord
   end
 
   def online_host_count
-    hosts.where('last_seen_at > ?', 2.minutes.ago).count
+    hosts.where("last_seen_at > ?", 2.minutes.ago).count
   end
 
   def offline_host_count

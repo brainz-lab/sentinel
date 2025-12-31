@@ -43,7 +43,7 @@ module Sentinel
 
     # Add middleware needed for dashboard (HTML views with sessions and flash)
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_sentinel_session'
+    config.middleware.use ActionDispatch::Session::CookieStore, key: "_sentinel_session"
     config.middleware.use ActionDispatch::Flash
 
     # Use Solid Queue for background jobs

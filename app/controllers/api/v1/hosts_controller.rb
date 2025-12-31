@@ -1,7 +1,7 @@
 module Api
   module V1
     class HostsController < BaseController
-      before_action :set_host, only: [:show, :update, :destroy, :metrics, :processes, :health]
+      before_action :set_host, only: [ :show, :update, :destroy, :metrics, :processes, :health ]
 
       # GET /api/v1/hosts
       def index

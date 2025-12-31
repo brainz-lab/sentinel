@@ -6,7 +6,7 @@ module Api
       private
 
       def set_project_context
-        @project_id = current_project&.id || 'development'
+        @project_id = current_project&.id || "development"
       end
     end
   end

@@ -1,12 +1,12 @@
 module Api
   module V1
     class AlertRulesController < BaseController
-      before_action :set_alert_rule, only: [:show, :update, :destroy, :test, :enable, :disable]
+      before_action :set_alert_rule, only: [ :show, :update, :destroy, :test, :enable, :disable ]
 
       # GET /api/v1/alert_rules
       def index
         rules = AlertRule.for_project(@project_id)
-        rules = rules.enabled if params[:enabled] == 'true'
+        rules = rules.enabled if params[:enabled] == "true"
 
         render json: {
           alert_rules: rules.map { |r| rule_summary(r) }
