@@ -1,0 +1,350 @@
+/*
+ * Sentinel Dark Mode Support
+ * Uses CSS custom properties for light/dark theme switching
+ * Based on brainzlab-ui design tokens
+ */
+
+/* ============================================
+   Light Theme (Default)
+   ============================================ */
+:root {
+  /* Backgrounds */
+  --dm-bg-base: #FAF9F7;
+  --dm-bg-surface: #FFFFFF;
+  --dm-bg-surface-alt: #FFFFFE;
+  --dm-bg-subtle: var(--color-cream-50, #F5F3EF);
+  --dm-bg-muted: var(--color-cream-100, #EBE7DF);
+
+  /* Text */
+  --dm-text-primary: var(--color-ink-900, #1C1B1A);
+  --dm-text-secondary: var(--color-ink-700, #4A4845);
+  --dm-text-tertiary: var(--color-ink-600, #5E5B56);
+  --dm-text-muted: var(--color-ink-500, #737067);
+  --dm-text-subtle: var(--color-ink-400, #8A867F);
+  --dm-text-disabled: var(--color-ink-300, #A5A29C);
+
+  /* Borders */
+  --dm-border-default: var(--color-cream-200, #DDD8CD);
+  --dm-border-subtle: var(--color-cream-100, #EBE7DF);
+
+  /* Interactive */
+  --dm-input-bg: var(--color-cream-50, #F5F3EF);
+  --dm-input-border: var(--color-cream-200, #DDD8CD);
+  --dm-hover-bg: var(--color-cream-50, #F5F3EF);
+
+  /* Status badges backgrounds */
+  --dm-badge-success-bg: rgba(34, 197, 94, 0.1);
+  --dm-badge-success-text: #166534;
+  --dm-badge-error-bg: rgba(239, 68, 68, 0.1);
+  --dm-badge-error-text: #991B1B;
+  --dm-badge-warning-bg: rgba(234, 179, 8, 0.1);
+  --dm-badge-warning-text: #854D0E;
+  --dm-badge-neutral-bg: var(--color-cream-100, #EBE7DF);
+  --dm-badge-neutral-text: var(--color-ink-600, #5E5B56);
+
+  /* Cards and panels */
+  --dm-card-bg: #FFFFFF;
+  --dm-card-border: var(--color-cream-200, #DDD8CD);
+  --dm-card-shadow: 0 1px 3px rgba(28, 27, 26, 0.04);
+
+  /* Table */
+  --dm-table-header-bg: var(--color-cream-50, #F5F3EF);
+  --dm-table-row-hover: var(--color-cream-50, #F5F3EF);
+  --dm-table-border: var(--color-cream-100, #EBE7DF);
+
+  /* Sidebar */
+  --dm-sidebar-bg: #FFFFFF;
+  --dm-sidebar-border: var(--color-cream-200, #DDD8CD);
+
+  /* Code/mono */
+  --dm-code-bg: var(--color-cream-50, #F5F3EF);
+  --dm-code-text: var(--color-ink-700, #4A4845);
+
+  /* Progress bars */
+  --dm-progress-bg: var(--color-cream-200, #DDD8CD);
+
+  /* Alert boxes */
+  --dm-alert-error-bg: rgba(239, 68, 68, 0.05);
+  --dm-alert-error-border: rgba(239, 68, 68, 0.15);
+  --dm-alert-error-text: #991B1B;
+
+  /* Sentinel brand gradient overlay */
+  --dm-sentinel-gradient-bg: rgba(249, 115, 22, 0.08);
+}
+
+/* ============================================
+   Dark Theme
+   ============================================ */
+[data-theme="dark"] {
+  /* Backgrounds - brainzlab-ui dark tokens */
+  --dm-bg-base: #121212;
+  --dm-bg-surface: #1e1e1e;
+  --dm-bg-surface-alt: #1e1e1e;
+  --dm-bg-subtle: #2a2a2a;
+  --dm-bg-muted: #333333;
+
+  /* Text - brainzlab-ui dark tokens */
+  --dm-text-primary: #e8e1d7;
+  --dm-text-secondary: #d0c9bf;
+  --dm-text-tertiary: #b8b2a8;
+  --dm-text-muted: #a0a0a0;
+  --dm-text-subtle: #888888;
+  --dm-text-disabled: #666666;
+
+  /* Borders */
+  --dm-border-default: #333333;
+  --dm-border-subtle: #2a2a2a;
+
+  /* Interactive */
+  --dm-input-bg: #2a2a2a;
+  --dm-input-border: #333333;
+  --dm-hover-bg: #2a2a2a;
+
+  /* Status badges backgrounds - adjusted for dark */
+  --dm-badge-success-bg: rgba(34, 197, 94, 0.15);
+  --dm-badge-success-text: #4ADE80;
+  --dm-badge-error-bg: rgba(239, 68, 68, 0.15);
+  --dm-badge-error-text: #F87171;
+  --dm-badge-warning-bg: rgba(234, 179, 8, 0.15);
+  --dm-badge-warning-text: #FACC15;
+  --dm-badge-neutral-bg: #333333;
+  --dm-badge-neutral-text: #a0a0a0;
+
+  /* Cards and panels */
+  --dm-card-bg: #1e1e1e;
+  --dm-card-border: #333333;
+  --dm-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+  /* Table */
+  --dm-table-header-bg: #2a2a2a;
+  --dm-table-row-hover: #2a2a2a;
+  --dm-table-border: #333333;
+
+  /* Sidebar */
+  --dm-sidebar-bg: #1e1e1e;
+  --dm-sidebar-border: #333333;
+
+  /* Code/mono */
+  --dm-code-bg: #2a2a2a;
+  --dm-code-text: #d0c9bf;
+
+  /* Progress bars */
+  --dm-progress-bg: #333333;
+
+  /* Alert boxes */
+  --dm-alert-error-bg: rgba(239, 68, 68, 0.1);
+  --dm-alert-error-border: rgba(239, 68, 68, 0.25);
+  --dm-alert-error-text: #F87171;
+
+  /* Sentinel brand gradient overlay - adjusted for dark */
+  --dm-sentinel-gradient-bg: rgba(249, 115, 22, 0.12);
+}
+
+/* System preference detection */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    /* Backgrounds - brainzlab-ui dark tokens */
+    --dm-bg-base: #121212;
+    --dm-bg-surface: #1e1e1e;
+    --dm-bg-surface-alt: #1e1e1e;
+    --dm-bg-subtle: #2a2a2a;
+    --dm-bg-muted: #333333;
+
+    /* Text - brainzlab-ui dark tokens */
+    --dm-text-primary: #e8e1d7;
+    --dm-text-secondary: #d0c9bf;
+    --dm-text-tertiary: #b8b2a8;
+    --dm-text-muted: #a0a0a0;
+    --dm-text-subtle: #888888;
+    --dm-text-disabled: #666666;
+
+    /* Borders */
+    --dm-border-default: #333333;
+    --dm-border-subtle: #2a2a2a;
+
+    /* Interactive */
+    --dm-input-bg: #2a2a2a;
+    --dm-input-border: #333333;
+    --dm-hover-bg: #2a2a2a;
+
+    /* Status badges backgrounds */
+    --dm-badge-success-bg: rgba(34, 197, 94, 0.15);
+    --dm-badge-success-text: #4ADE80;
+    --dm-badge-error-bg: rgba(239, 68, 68, 0.15);
+    --dm-badge-error-text: #F87171;
+    --dm-badge-warning-bg: rgba(234, 179, 8, 0.15);
+    --dm-badge-warning-text: #FACC15;
+    --dm-badge-neutral-bg: #333333;
+    --dm-badge-neutral-text: #a0a0a0;
+
+    /* Cards and panels */
+    --dm-card-bg: #1e1e1e;
+    --dm-card-border: #333333;
+    --dm-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+
+    /* Table */
+    --dm-table-header-bg: #2a2a2a;
+    --dm-table-row-hover: #2a2a2a;
+    --dm-table-border: #333333;
+
+    /* Sidebar */
+    --dm-sidebar-bg: #1e1e1e;
+    --dm-sidebar-border: #333333;
+
+    /* Code/mono */
+    --dm-code-bg: #2a2a2a;
+    --dm-code-text: #d0c9bf;
+
+    /* Progress bars */
+    --dm-progress-bg: #333333;
+
+    /* Alert boxes */
+    --dm-alert-error-bg: rgba(239, 68, 68, 0.1);
+    --dm-alert-error-border: rgba(239, 68, 68, 0.25);
+    --dm-alert-error-text: #F87171;
+
+    /* Sentinel brand gradient overlay */
+    --dm-sentinel-gradient-bg: rgba(249, 115, 22, 0.12);
+  }
+}
+
+/* ============================================
+   Utility Classes for Dark Mode
+   ============================================ */
+
+/* Backgrounds */
+.dm-bg-base { background-color: var(--dm-bg-base) !important; }
+.dm-bg-surface { background-color: var(--dm-bg-surface) !important; }
+.dm-bg-surface-alt { background-color: var(--dm-bg-surface-alt) !important; }
+.dm-bg-subtle { background-color: var(--dm-bg-subtle) !important; }
+.dm-bg-muted { background-color: var(--dm-bg-muted) !important; }
+
+/* Text */
+.dm-text-primary { color: var(--dm-text-primary) !important; }
+.dm-text-secondary { color: var(--dm-text-secondary) !important; }
+.dm-text-tertiary { color: var(--dm-text-tertiary) !important; }
+.dm-text-muted { color: var(--dm-text-muted) !important; }
+.dm-text-subtle { color: var(--dm-text-subtle) !important; }
+.dm-text-disabled { color: var(--dm-text-disabled) !important; }
+
+/* Borders */
+.dm-border { border-color: var(--dm-border-default) !important; }
+.dm-border-subtle { border-color: var(--dm-border-subtle) !important; }
+
+/* Cards */
+.dm-card {
+  background-color: var(--dm-card-bg) !important;
+  border-color: var(--dm-card-border) !important;
+  box-shadow: var(--dm-card-shadow) !important;
+}
+
+/* Tables */
+.dm-table-header { background-color: var(--dm-table-header-bg) !important; }
+.dm-table-row-hover:hover { background-color: var(--dm-table-row-hover) !important; }
+.dm-table-border { border-color: var(--dm-table-border) !important; }
+
+/* Sidebar */
+.dm-sidebar {
+  background-color: var(--dm-sidebar-bg) !important;
+  border-color: var(--dm-sidebar-border) !important;
+}
+
+/* Inputs */
+.dm-input {
+  background-color: var(--dm-input-bg) !important;
+  border-color: var(--dm-input-border) !important;
+  color: var(--dm-text-primary) !important;
+}
+
+/* Code blocks */
+.dm-code {
+  background-color: var(--dm-code-bg) !important;
+  color: var(--dm-code-text) !important;
+}
+
+/* Progress bars */
+.dm-progress-bg { background-color: var(--dm-progress-bg) !important; }
+
+/* Badges */
+.dm-badge-success {
+  background-color: var(--dm-badge-success-bg) !important;
+  color: var(--dm-badge-success-text) !important;
+}
+.dm-badge-error {
+  background-color: var(--dm-badge-error-bg) !important;
+  color: var(--dm-badge-error-text) !important;
+}
+.dm-badge-warning {
+  background-color: var(--dm-badge-warning-bg) !important;
+  color: var(--dm-badge-warning-text) !important;
+}
+.dm-badge-neutral {
+  background-color: var(--dm-badge-neutral-bg) !important;
+  color: var(--dm-badge-neutral-text) !important;
+}
+
+/* Sentinel brand elements with gradient */
+.dm-sentinel-gradient-bg {
+  background: linear-gradient(135deg, var(--dm-sentinel-gradient-bg) 0%, rgba(234, 88, 12, 0.15) 100%) !important;
+}
+
+/* Alert boxes */
+.dm-alert-error {
+  background-color: var(--dm-alert-error-bg) !important;
+  border-color: var(--dm-alert-error-border) !important;
+  color: var(--dm-alert-error-text) !important;
+}
+
+/* ============================================
+   Dark Mode Toggle Button Styles
+   ============================================ */
+.dark-mode-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.5rem;
+  border: none;
+  background-color: transparent;
+  color: var(--dm-text-muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: var(--dm-hover-bg);
+  color: var(--dm-text-primary);
+}
+
+.dark-mode-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Hide appropriate icon based on theme */
+.dark-mode-toggle .icon-sun { display: none; }
+.dark-mode-toggle .icon-moon { display: block; }
+
+[data-theme="dark"] .dark-mode-toggle .icon-sun { display: block; }
+[data-theme="dark"] .dark-mode-toggle .icon-moon { display: none; }
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dark-mode-toggle .icon-sun { display: block; }
+  :root:not([data-theme="light"]) .dark-mode-toggle .icon-moon { display: none; }
+}
+
+/* ============================================
+   Smooth Transitions
+   ============================================ */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body,
+.dm-card,
+.dm-sidebar,
+.dm-input,
+.dm-code {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
