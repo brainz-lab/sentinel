@@ -15,12 +15,15 @@
   <%= stylesheet_link_tag "dark_mode", "data-turbo-track": "reload" %>
   <%= javascript_importmap_tags %>
 
-  <%# Prevent flash of wrong theme %>
+  <%# Prevent flash of wrong theme on page load %>
   <script>
     (function() {
-      const storedTheme = localStorage.getItem('sentinel-theme');
-      if (storedTheme) {
-        document.documentElement.setAttribute('data-theme', storedTheme);
+      const savedTheme = localStorage.getItem('brainzlab-theme');
+      const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.add('light');
       }
     })();
   </script>

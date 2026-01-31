@@ -1,350 +1,500 @@
-/*
- * Sentinel Dark Mode Support
- * Uses CSS custom properties for light/dark theme switching
- * Based on brainzlab-ui design tokens
- */
+/* ============================================
+   DARK MODE STYLES - BrainzLab Standard
+   ============================================
+   Standardized dark mode implementation for all BrainzLab products.
+   Uses `dm-*` prefix for CSS classes and `brainzlab-theme` localStorage key.
+
+   Dark mode tokens from brainzlab-ui:
+   - Dark bg: #121212
+   - Dark surface: #1e1e1e
+   - Dark surface light: #2a2a2a
+   - Dark text: #e8e1d7
+   - Dark text muted: #a0a0a0
+   - Dark border: #333333
+*/
 
 /* ============================================
-   Light Theme (Default)
+   CSS VARIABLES - Light Theme (Default)
    ============================================ */
 :root {
-  /* Backgrounds */
-  --dm-bg-base: #FAF9F7;
-  --dm-bg-surface: #FFFFFF;
-  --dm-bg-surface-alt: #FFFFFE;
-  --dm-bg-subtle: var(--color-cream-50, #F5F3EF);
-  --dm-bg-muted: var(--color-cream-100, #EBE7DF);
+  /* Core backgrounds */
+  --dm-bg: #FAFAF9;
+  --dm-surface: #FFFFFF;
+  --dm-surface-alt: #F5F5F0;
+  --dm-surface-hover: #F0EFED;
 
-  /* Text */
-  --dm-text-primary: var(--color-ink-900, #1C1B1A);
-  --dm-text-secondary: var(--color-ink-700, #4A4845);
-  --dm-text-tertiary: var(--color-ink-600, #5E5B56);
-  --dm-text-muted: var(--color-ink-500, #737067);
-  --dm-text-subtle: var(--color-ink-400, #8A867F);
-  --dm-text-disabled: var(--color-ink-300, #A5A29C);
+  /* Core text */
+  --dm-text: #1a1a1a;
+  --dm-text-secondary: #6B6760;
+  --dm-text-muted: #8B8780;
+  --dm-text-placeholder: #A5A29C;
 
-  /* Borders */
-  --dm-border-default: var(--color-cream-200, #DDD8CD);
-  --dm-border-subtle: var(--color-cream-100, #EBE7DF);
+  /* Core borders */
+  --dm-border: #E8E5E0;
+  --dm-border-light: #F0EFED;
 
   /* Interactive */
-  --dm-input-bg: var(--color-cream-50, #F5F3EF);
-  --dm-input-border: var(--color-cream-200, #DDD8CD);
-  --dm-hover-bg: var(--color-cream-50, #F5F3EF);
+  --dm-input-bg: #FFFFFF;
+  --dm-input-border: #E8E5E0;
+  --dm-hover-bg: #F5F5F0;
 
-  /* Status badges backgrounds */
-  --dm-badge-success-bg: rgba(34, 197, 94, 0.1);
-  --dm-badge-success-text: #166534;
-  --dm-badge-error-bg: rgba(239, 68, 68, 0.1);
-  --dm-badge-error-text: #991B1B;
-  --dm-badge-warning-bg: rgba(234, 179, 8, 0.1);
-  --dm-badge-warning-text: #854D0E;
-  --dm-badge-neutral-bg: var(--color-cream-100, #EBE7DF);
-  --dm-badge-neutral-text: var(--color-ink-600, #5E5B56);
+  /* Code blocks */
+  --dm-code-bg: #1A1A1A;
+  --dm-code-text: #E8E5E0;
 
-  /* Cards and panels */
-  --dm-card-bg: #FFFFFF;
-  --dm-card-border: var(--color-cream-200, #DDD8CD);
-  --dm-card-shadow: 0 1px 3px rgba(28, 27, 26, 0.04);
+  /* Shadows */
+  --dm-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --dm-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.08);
+  --dm-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
 
-  /* Table */
-  --dm-table-header-bg: var(--color-cream-50, #F5F3EF);
-  --dm-table-row-hover: var(--color-cream-50, #F5F3EF);
-  --dm-table-border: var(--color-cream-100, #EBE7DF);
+  /* Status colors - Light */
+  --dm-success: #16A34A;
+  --dm-success-bg: #DCFCE7;
+  --dm-success-text: #166534;
+  --dm-success-border: #A7F3D0;
 
-  /* Sidebar */
-  --dm-sidebar-bg: #FFFFFF;
-  --dm-sidebar-border: var(--color-cream-200, #DDD8CD);
+  --dm-warning: #D97706;
+  --dm-warning-bg: #FEF3C7;
+  --dm-warning-text: #92400E;
+  --dm-warning-border: #FDE68A;
 
-  /* Code/mono */
-  --dm-code-bg: var(--color-cream-50, #F5F3EF);
-  --dm-code-text: var(--color-ink-700, #4A4845);
+  --dm-error: #DC2626;
+  --dm-error-bg: #FEF2F2;
+  --dm-error-text: #991B1B;
+  --dm-error-border: #FECACA;
 
-  /* Progress bars */
-  --dm-progress-bg: var(--color-cream-200, #DDD8CD);
+  --dm-info: #2563EB;
+  --dm-info-bg: #EFF6FF;
+  --dm-info-text: #1E40AF;
+  --dm-info-border: #BFDBFE;
 
-  /* Alert boxes */
-  --dm-alert-error-bg: rgba(239, 68, 68, 0.05);
-  --dm-alert-error-border: rgba(239, 68, 68, 0.15);
-  --dm-alert-error-text: #991B1B;
-
-  /* Sentinel brand gradient overlay */
-  --dm-sentinel-gradient-bg: rgba(249, 115, 22, 0.08);
+  /* Sentinel-specific: Brand accent */
+  --dm-sentinel: #F97316;
+  --dm-sentinel-dark: #EA580C;
+  --dm-sentinel-light: #FB923C;
 }
 
 /* ============================================
-   Dark Theme
+   CSS VARIABLES - Dark Theme
    ============================================ */
+html.dark,
+.dark,
 [data-theme="dark"] {
-  /* Backgrounds - brainzlab-ui dark tokens */
-  --dm-bg-base: #121212;
-  --dm-bg-surface: #1e1e1e;
-  --dm-bg-surface-alt: #1e1e1e;
-  --dm-bg-subtle: #2a2a2a;
-  --dm-bg-muted: #333333;
+  /* Core backgrounds */
+  --dm-bg: #121212;
+  --dm-surface: #1e1e1e;
+  --dm-surface-alt: #2a2a2a;
+  --dm-surface-hover: #333333;
 
-  /* Text - brainzlab-ui dark tokens */
-  --dm-text-primary: #e8e1d7;
-  --dm-text-secondary: #d0c9bf;
-  --dm-text-tertiary: #b8b2a8;
-  --dm-text-muted: #a0a0a0;
-  --dm-text-subtle: #888888;
-  --dm-text-disabled: #666666;
+  /* Core text */
+  --dm-text: #e8e1d7;
+  --dm-text-secondary: #a0a0a0;
+  --dm-text-muted: #707070;
+  --dm-text-placeholder: #666666;
 
-  /* Borders */
-  --dm-border-default: #333333;
-  --dm-border-subtle: #2a2a2a;
+  /* Core borders */
+  --dm-border: #333333;
+  --dm-border-light: #2a2a2a;
 
   /* Interactive */
   --dm-input-bg: #2a2a2a;
   --dm-input-border: #333333;
   --dm-hover-bg: #2a2a2a;
 
-  /* Status badges backgrounds - adjusted for dark */
-  --dm-badge-success-bg: rgba(34, 197, 94, 0.15);
-  --dm-badge-success-text: #4ADE80;
-  --dm-badge-error-bg: rgba(239, 68, 68, 0.15);
-  --dm-badge-error-text: #F87171;
-  --dm-badge-warning-bg: rgba(234, 179, 8, 0.15);
-  --dm-badge-warning-text: #FACC15;
-  --dm-badge-neutral-bg: #333333;
-  --dm-badge-neutral-text: #a0a0a0;
+  /* Code blocks */
+  --dm-code-bg: #0d0d0d;
+  --dm-code-text: #e8e1d7;
 
-  /* Cards and panels */
-  --dm-card-bg: #1e1e1e;
-  --dm-card-border: #333333;
-  --dm-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  /* Shadows */
+  --dm-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+  --dm-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+  --dm-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 
-  /* Table */
-  --dm-table-header-bg: #2a2a2a;
-  --dm-table-row-hover: #2a2a2a;
-  --dm-table-border: #333333;
+  /* Status colors - Dark */
+  --dm-success: #22C55E;
+  --dm-success-bg: rgba(34, 197, 94, 0.15);
+  --dm-success-text: #86EFAC;
+  --dm-success-border: rgba(34, 197, 94, 0.3);
 
-  /* Sidebar */
-  --dm-sidebar-bg: #1e1e1e;
-  --dm-sidebar-border: #333333;
+  --dm-warning: #F59E0B;
+  --dm-warning-bg: rgba(245, 158, 11, 0.15);
+  --dm-warning-text: #FCD34D;
+  --dm-warning-border: rgba(245, 158, 11, 0.3);
 
-  /* Code/mono */
-  --dm-code-bg: #2a2a2a;
-  --dm-code-text: #d0c9bf;
+  --dm-error: #EF4444;
+  --dm-error-bg: rgba(239, 68, 68, 0.15);
+  --dm-error-text: #FCA5A5;
+  --dm-error-border: rgba(239, 68, 68, 0.3);
 
-  /* Progress bars */
-  --dm-progress-bg: #333333;
+  --dm-info: #3B82F6;
+  --dm-info-bg: rgba(59, 130, 246, 0.15);
+  --dm-info-text: #93C5FD;
+  --dm-info-border: rgba(59, 130, 246, 0.3);
 
-  /* Alert boxes */
-  --dm-alert-error-bg: rgba(239, 68, 68, 0.1);
-  --dm-alert-error-border: rgba(239, 68, 68, 0.25);
-  --dm-alert-error-text: #F87171;
-
-  /* Sentinel brand gradient overlay - adjusted for dark */
-  --dm-sentinel-gradient-bg: rgba(249, 115, 22, 0.12);
+  /* Sentinel-specific */
+  --dm-sentinel: #FB923C;
+  --dm-sentinel-dark: #F97316;
+  --dm-sentinel-light: #FDBA74;
 }
 
-/* System preference detection */
+/* ============================================
+   System Preference Support
+   ============================================ */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    /* Backgrounds - brainzlab-ui dark tokens */
-    --dm-bg-base: #121212;
-    --dm-bg-surface: #1e1e1e;
-    --dm-bg-surface-alt: #1e1e1e;
-    --dm-bg-subtle: #2a2a2a;
-    --dm-bg-muted: #333333;
+  html:not(.light):not([data-theme="light"]) {
+    /* Core backgrounds */
+    --dm-bg: #121212;
+    --dm-surface: #1e1e1e;
+    --dm-surface-alt: #2a2a2a;
+    --dm-surface-hover: #333333;
 
-    /* Text - brainzlab-ui dark tokens */
-    --dm-text-primary: #e8e1d7;
-    --dm-text-secondary: #d0c9bf;
-    --dm-text-tertiary: #b8b2a8;
-    --dm-text-muted: #a0a0a0;
-    --dm-text-subtle: #888888;
-    --dm-text-disabled: #666666;
+    /* Core text */
+    --dm-text: #e8e1d7;
+    --dm-text-secondary: #a0a0a0;
+    --dm-text-muted: #707070;
+    --dm-text-placeholder: #666666;
 
-    /* Borders */
-    --dm-border-default: #333333;
-    --dm-border-subtle: #2a2a2a;
+    /* Core borders */
+    --dm-border: #333333;
+    --dm-border-light: #2a2a2a;
 
     /* Interactive */
     --dm-input-bg: #2a2a2a;
     --dm-input-border: #333333;
     --dm-hover-bg: #2a2a2a;
 
-    /* Status badges backgrounds */
-    --dm-badge-success-bg: rgba(34, 197, 94, 0.15);
-    --dm-badge-success-text: #4ADE80;
-    --dm-badge-error-bg: rgba(239, 68, 68, 0.15);
-    --dm-badge-error-text: #F87171;
-    --dm-badge-warning-bg: rgba(234, 179, 8, 0.15);
-    --dm-badge-warning-text: #FACC15;
-    --dm-badge-neutral-bg: #333333;
-    --dm-badge-neutral-text: #a0a0a0;
+    /* Code blocks */
+    --dm-code-bg: #0d0d0d;
+    --dm-code-text: #e8e1d7;
 
-    /* Cards and panels */
-    --dm-card-bg: #1e1e1e;
-    --dm-card-border: #333333;
-    --dm-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    /* Shadows */
+    --dm-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --dm-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+    --dm-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
 
-    /* Table */
-    --dm-table-header-bg: #2a2a2a;
-    --dm-table-row-hover: #2a2a2a;
-    --dm-table-border: #333333;
+    /* Status colors */
+    --dm-success: #22C55E;
+    --dm-success-bg: rgba(34, 197, 94, 0.15);
+    --dm-success-text: #86EFAC;
+    --dm-success-border: rgba(34, 197, 94, 0.3);
 
-    /* Sidebar */
-    --dm-sidebar-bg: #1e1e1e;
-    --dm-sidebar-border: #333333;
+    --dm-warning: #F59E0B;
+    --dm-warning-bg: rgba(245, 158, 11, 0.15);
+    --dm-warning-text: #FCD34D;
+    --dm-warning-border: rgba(245, 158, 11, 0.3);
 
-    /* Code/mono */
-    --dm-code-bg: #2a2a2a;
-    --dm-code-text: #d0c9bf;
+    --dm-error: #EF4444;
+    --dm-error-bg: rgba(239, 68, 68, 0.15);
+    --dm-error-text: #FCA5A5;
+    --dm-error-border: rgba(239, 68, 68, 0.3);
 
-    /* Progress bars */
-    --dm-progress-bg: #333333;
+    --dm-info: #3B82F6;
+    --dm-info-bg: rgba(59, 130, 246, 0.15);
+    --dm-info-text: #93C5FD;
+    --dm-info-border: rgba(59, 130, 246, 0.3);
 
-    /* Alert boxes */
-    --dm-alert-error-bg: rgba(239, 68, 68, 0.1);
-    --dm-alert-error-border: rgba(239, 68, 68, 0.25);
-    --dm-alert-error-text: #F87171;
-
-    /* Sentinel brand gradient overlay */
-    --dm-sentinel-gradient-bg: rgba(249, 115, 22, 0.12);
+    /* Sentinel brand */
+    --dm-sentinel: #FB923C;
+    --dm-sentinel-dark: #F97316;
+    --dm-sentinel-light: #FDBA74;
   }
 }
 
 /* ============================================
-   Utility Classes for Dark Mode
+   STANDARDIZED UTILITY CLASSES (dm-* prefix)
    ============================================ */
 
-/* Backgrounds */
-.dm-bg-base { background-color: var(--dm-bg-base) !important; }
-.dm-bg-surface { background-color: var(--dm-bg-surface) !important; }
-.dm-bg-surface-alt { background-color: var(--dm-bg-surface-alt) !important; }
-.dm-bg-subtle { background-color: var(--dm-bg-subtle) !important; }
-.dm-bg-muted { background-color: var(--dm-bg-muted) !important; }
-
-/* Text */
-.dm-text-primary { color: var(--dm-text-primary) !important; }
-.dm-text-secondary { color: var(--dm-text-secondary) !important; }
-.dm-text-tertiary { color: var(--dm-text-tertiary) !important; }
-.dm-text-muted { color: var(--dm-text-muted) !important; }
-.dm-text-subtle { color: var(--dm-text-subtle) !important; }
-.dm-text-disabled { color: var(--dm-text-disabled) !important; }
-
-/* Borders */
-.dm-border { border-color: var(--dm-border-default) !important; }
-.dm-border-subtle { border-color: var(--dm-border-subtle) !important; }
-
-/* Cards */
-.dm-card {
-  background-color: var(--dm-card-bg) !important;
-  border-color: var(--dm-card-border) !important;
-  box-shadow: var(--dm-card-shadow) !important;
+/* Background utilities */
+.dm-bg {
+  background-color: var(--dm-bg);
 }
 
-/* Tables */
-.dm-table-header { background-color: var(--dm-table-header-bg) !important; }
-.dm-table-row-hover:hover { background-color: var(--dm-table-row-hover) !important; }
-.dm-table-border { border-color: var(--dm-table-border) !important; }
+.dm-surface {
+  background-color: var(--dm-surface);
+}
+
+.dm-surface-alt {
+  background-color: var(--dm-surface-alt);
+}
+
+.dm-surface-hover:hover {
+  background-color: var(--dm-surface-hover);
+}
+
+/* Text utilities */
+.dm-text {
+  color: var(--dm-text);
+}
+
+.dm-text-secondary {
+  color: var(--dm-text-secondary);
+}
+
+.dm-text-muted {
+  color: var(--dm-text-muted);
+}
+
+.dm-text-placeholder {
+  color: var(--dm-text-placeholder);
+}
+
+/* Border utilities */
+.dm-border {
+  border-color: var(--dm-border);
+}
+
+.dm-border-light {
+  border-color: var(--dm-border-light);
+}
+
+/* Card component */
+.dm-card {
+  background-color: var(--dm-surface);
+  border: 1px solid var(--dm-border);
+  box-shadow: var(--dm-shadow-sm);
+}
+
+/* Input component */
+.dm-input {
+  background-color: var(--dm-input-bg);
+  border: 1px solid var(--dm-input-border);
+  color: var(--dm-text);
+}
+
+.dm-input:focus {
+  border-color: var(--dm-sentinel);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+}
+
+.dm-input::placeholder {
+  color: var(--dm-text-placeholder);
+}
+
+/* Button components */
+.dm-btn-primary {
+  background-color: var(--dm-text);
+  color: var(--dm-bg);
+}
+
+.dm-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.dm-btn-secondary {
+  background-color: var(--dm-surface-alt);
+  border: 1px solid var(--dm-border);
+  color: var(--dm-text-secondary);
+}
+
+.dm-btn-secondary:hover {
+  background-color: var(--dm-surface-hover);
+}
+
+/* Table components */
+.dm-table-header {
+  background-color: var(--dm-surface-alt);
+  color: var(--dm-text-muted);
+  border-bottom: 1px solid var(--dm-border);
+}
+
+.dm-table-row {
+  border-bottom: 1px solid var(--dm-border-light);
+}
+
+.dm-table-row:hover {
+  background-color: var(--dm-hover-bg);
+}
+
+/* Code block */
+.dm-code {
+  background-color: var(--dm-code-bg);
+  color: var(--dm-code-text);
+}
 
 /* Sidebar */
 .dm-sidebar {
-  background-color: var(--dm-sidebar-bg) !important;
-  border-color: var(--dm-sidebar-border) !important;
+  background-color: var(--dm-surface);
+  border-right: 1px solid var(--dm-border);
 }
 
-/* Inputs */
-.dm-input {
-  background-color: var(--dm-input-bg) !important;
-  border-color: var(--dm-input-border) !important;
-  color: var(--dm-text-primary) !important;
+/* Status alerts */
+.dm-alert-success {
+  background-color: var(--dm-success-bg);
+  color: var(--dm-success-text);
+  border: 1px solid var(--dm-success-border);
 }
 
-/* Code blocks */
-.dm-code {
-  background-color: var(--dm-code-bg) !important;
-  color: var(--dm-code-text) !important;
+.dm-alert-warning {
+  background-color: var(--dm-warning-bg);
+  color: var(--dm-warning-text);
+  border: 1px solid var(--dm-warning-border);
 }
 
-/* Progress bars */
-.dm-progress-bg { background-color: var(--dm-progress-bg) !important; }
+.dm-alert-error {
+  background-color: var(--dm-error-bg);
+  color: var(--dm-error-text);
+  border: 1px solid var(--dm-error-border);
+}
+
+.dm-alert-info {
+  background-color: var(--dm-info-bg);
+  color: var(--dm-info-text);
+  border: 1px solid var(--dm-info-border);
+}
 
 /* Badges */
 .dm-badge-success {
-  background-color: var(--dm-badge-success-bg) !important;
-  color: var(--dm-badge-success-text) !important;
+  background-color: var(--dm-success-bg);
+  color: var(--dm-success-text);
 }
-.dm-badge-error {
-  background-color: var(--dm-badge-error-bg) !important;
-  color: var(--dm-badge-error-text) !important;
-}
+
 .dm-badge-warning {
-  background-color: var(--dm-badge-warning-bg) !important;
-  color: var(--dm-badge-warning-text) !important;
+  background-color: var(--dm-warning-bg);
+  color: var(--dm-warning-text);
 }
+
+.dm-badge-error {
+  background-color: var(--dm-error-bg);
+  color: var(--dm-error-text);
+}
+
+.dm-badge-info {
+  background-color: var(--dm-info-bg);
+  color: var(--dm-info-text);
+}
+
 .dm-badge-neutral {
-  background-color: var(--dm-badge-neutral-bg) !important;
-  color: var(--dm-badge-neutral-text) !important;
-}
-
-/* Sentinel brand elements with gradient */
-.dm-sentinel-gradient-bg {
-  background: linear-gradient(135deg, var(--dm-sentinel-gradient-bg) 0%, rgba(234, 88, 12, 0.15) 100%) !important;
-}
-
-/* Alert boxes */
-.dm-alert-error {
-  background-color: var(--dm-alert-error-bg) !important;
-  border-color: var(--dm-alert-error-border) !important;
-  color: var(--dm-alert-error-text) !important;
+  background-color: var(--dm-surface-alt);
+  color: var(--dm-text-muted);
 }
 
 /* ============================================
-   Dark Mode Toggle Button Styles
+   Dark Mode Toggle Button
    ============================================ */
-.dark-mode-toggle {
-  display: flex;
+.dm-toggle {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2rem;
   height: 2rem;
+  padding: 0.375rem;
+  background: transparent;
+  border: 1px solid var(--dm-border);
   border-radius: 0.5rem;
-  border: none;
-  background-color: transparent;
-  color: var(--dm-text-muted);
+  color: var(--dm-text-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
-.dark-mode-toggle:hover {
+.dm-toggle:hover {
   background-color: var(--dm-hover-bg);
-  color: var(--dm-text-primary);
+  color: var(--dm-text);
 }
 
-.dark-mode-toggle svg {
-  width: 1.25rem;
-  height: 1.25rem;
+.dm-toggle:focus-visible {
+  outline: 2px solid var(--dm-sentinel);
+  outline-offset: 2px;
 }
 
-/* Hide appropriate icon based on theme */
-.dark-mode-toggle .icon-sun { display: none; }
-.dark-mode-toggle .icon-moon { display: block; }
+.dm-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s ease;
+}
 
-[data-theme="dark"] .dark-mode-toggle .icon-sun { display: block; }
-[data-theme="dark"] .dark-mode-toggle .icon-moon { display: none; }
+.dm-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Sun/Moon icon visibility */
+.dm-toggle .icon-sun {
+  display: none;
+}
+
+.dm-toggle .icon-moon {
+  display: block;
+}
+
+html.dark .dm-toggle .icon-sun,
+[data-theme="dark"] .dm-toggle .icon-sun {
+  display: block;
+}
+
+html.dark .dm-toggle .icon-moon,
+[data-theme="dark"] .dm-toggle .icon-moon {
+  display: none;
+}
 
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .dark-mode-toggle .icon-sun { display: block; }
-  :root:not([data-theme="light"]) .dark-mode-toggle .icon-moon { display: none; }
+  html:not(.light):not([data-theme="light"]) .dm-toggle .icon-sun {
+    display: block;
+  }
+  html:not(.light):not([data-theme="light"]) .dm-toggle .icon-moon {
+    display: none;
+  }
 }
 
 /* ============================================
-   Smooth Transitions
+   Scrollbar Dark Mode
    ============================================ */
-html {
-  transition: background-color 0.3s ease, color 0.3s ease;
+html.dark ::-webkit-scrollbar,
+[data-theme="dark"] ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
+html.dark ::-webkit-scrollbar-track,
+[data-theme="dark"] ::-webkit-scrollbar-track {
+  background: var(--dm-surface);
+}
+
+html.dark ::-webkit-scrollbar-thumb,
+[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--dm-border);
+  border-radius: 4px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover,
+[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: #444444;
+}
+
+/* ============================================
+   Transition Support
+   ============================================ */
 body,
 .dm-card,
 .dm-sidebar,
 .dm-input,
-.dm-code {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+.dm-btn-secondary,
+.dm-table-row {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+/* Disable transitions on initial load */
+html.no-transitions,
+html.no-transitions * {
+  transition: none !important;
+}
+
+/* ============================================
+   Print Styles - Force Light Mode
+   ============================================ */
+@media print {
+  :root,
+  html.dark,
+  [data-theme="dark"] {
+    --dm-bg: #FAFAF9;
+    --dm-surface: #FFFFFF;
+    --dm-surface-alt: #F5F5F0;
+    --dm-text: #1a1a1a;
+    --dm-text-secondary: #6B6760;
+    --dm-text-muted: #8B8780;
+    --dm-border: #E8E5E0;
+  }
+
+  .dm-toggle {
+    display: none;
+  }
 }
