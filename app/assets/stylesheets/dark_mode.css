@@ -370,7 +370,167 @@ html.dark,
 }
 
 /* ============================================
-   Dark Mode Toggle Button
+   Sentinel-Specific Utility Classes
+   ============================================ */
+
+/* Text hierarchy - mapped from template usage */
+.dm-text-primary {
+  color: var(--dm-text);
+}
+
+.dm-text-tertiary {
+  color: var(--dm-text-secondary);
+}
+
+.dm-text-subtle {
+  color: var(--dm-text-muted);
+}
+
+.dm-text-disabled {
+  color: var(--dm-text-placeholder);
+}
+
+/* Background utilities */
+.dm-bg-base {
+  background-color: var(--dm-bg);
+}
+
+.dm-bg-muted {
+  background-color: var(--dm-surface-alt);
+}
+
+.dm-bg-subtle {
+  background-color: var(--dm-surface-alt);
+}
+
+/* Border utilities */
+.dm-border-subtle {
+  border-color: var(--dm-border-light);
+}
+
+/* Semantic color variables for status */
+:root {
+  --color-success: var(--dm-success);
+  --color-warning: var(--dm-warning);
+  --color-error: var(--dm-error);
+  --color-info: var(--dm-info);
+
+  /* Badge background variables for inline styles */
+  --dm-badge-success-bg: var(--dm-success-bg);
+  --dm-badge-success-text: var(--dm-success-text);
+  --dm-badge-warning-bg: var(--dm-warning-bg);
+  --dm-badge-warning-text: var(--dm-warning-text);
+  --dm-badge-error-bg: var(--dm-error-bg);
+  --dm-badge-error-text: var(--dm-error-text);
+  --dm-badge-info-bg: var(--dm-info-bg);
+  --dm-badge-info-text: var(--dm-info-text);
+
+  /* Default border for inputs */
+  --dm-border-default: var(--dm-border);
+}
+
+/* Table utilities */
+.dm-table-border {
+  border-color: var(--dm-border-light);
+}
+
+.dm-table-border > * {
+  border-color: var(--dm-border-light);
+}
+
+.dm-table-row-hover:hover {
+  background-color: var(--dm-hover-bg);
+}
+
+/* Progress bar background */
+.dm-progress-bg {
+  background-color: var(--dm-surface-alt);
+}
+
+/* Sentinel brand gradient background */
+.dm-sentinel-gradient-bg {
+  background: rgba(249, 115, 22, 0.1);
+}
+
+html.dark .dm-sentinel-gradient-bg,
+[data-theme="dark"] .dm-sentinel-gradient-bg {
+  background: rgba(251, 146, 60, 0.15);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light):not([data-theme="light"]) .dm-sentinel-gradient-bg {
+    background: rgba(251, 146, 60, 0.15);
+  }
+}
+
+/* ============================================
+   Dark Mode Toggle Button (Standard)
+   ============================================ */
+.dark-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0.375rem;
+  background: transparent;
+  border: 1px solid var(--dm-border);
+  border-radius: 0.5rem;
+  color: var(--dm-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dark-mode-toggle:hover {
+  background-color: var(--dm-hover-bg);
+  color: var(--dm-text);
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: 2px solid var(--dm-sentinel);
+  outline-offset: 2px;
+}
+
+.dark-mode-toggle svg {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* Sun/Moon icon visibility for dark-mode-toggle */
+.dark-mode-toggle .icon-sun {
+  display: none;
+}
+
+.dark-mode-toggle .icon-moon {
+  display: block;
+}
+
+html.dark .dark-mode-toggle .icon-sun,
+[data-theme="dark"] .dark-mode-toggle .icon-sun {
+  display: block;
+}
+
+html.dark .dark-mode-toggle .icon-moon,
+[data-theme="dark"] .dark-mode-toggle .icon-moon {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not(.light):not([data-theme="light"]) .dark-mode-toggle .icon-sun {
+    display: block;
+  }
+  html:not(.light):not([data-theme="light"]) .dark-mode-toggle .icon-moon {
+    display: none;
+  }
+}
+
+/* ============================================
+   Dark Mode Toggle Button (Legacy dm-toggle)
    ============================================ */
 .dm-toggle {
   display: inline-flex;
