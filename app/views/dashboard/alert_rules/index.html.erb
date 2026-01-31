@@ -4,8 +4,8 @@
   <!-- Header -->
   <div class="flex items-center justify-between">
     <div>
-      <h1 class="text-2xl font-semibold" style="color: var(--color-ink-900);">Alert Rules</h1>
-      <p class="mt-1 text-sm" style="color: var(--color-ink-500);">Configure alerts for your infrastructure</p>
+      <h1 class="text-2xl font-semibold dm-text-primary">Alert Rules</h1>
+      <p class="mt-1 text-sm dm-text-muted">Configure alerts for your infrastructure</p>
     </div>
     <%= link_to dashboard_project_new_alert_rule_path(current_project),
         class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90",
@@ -18,32 +18,32 @@
   </div>
 
   <% if @alert_rules.any? %>
-    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFE; border-color: var(--color-cream-200);">
+    <div class="rounded-2xl border overflow-hidden dm-card">
       <table class="w-full">
         <thead>
-          <tr style="background: var(--color-cream-50);">
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Rule</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Condition</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Scope</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Severity</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Status</th>
+          <tr class="dm-table-header">
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Rule</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Condition</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Scope</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Severity</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Status</th>
             <th class="px-6 py-3"></th>
           </tr>
         </thead>
-        <tbody class="divide-y" style="border-color: var(--color-cream-100);">
+        <tbody class="divide-y dm-table-border">
           <% @alert_rules.each do |rule| %>
-            <tr class="hover:bg-[var(--color-cream-50)] transition">
+            <tr class="dm-table-row-hover transition">
               <td class="px-6 py-4">
                 <div class="flex items-center gap-3">
                   <div class="w-9 h-9 rounded-lg flex items-center justify-center"
-                       style="background: <%= rule.currently_firing_hosts.any? ? 'rgba(239, 68, 68, 0.1)' : 'var(--color-cream-100)' %>;">
-                    <svg class="w-5 h-5" style="color: <%= rule.currently_firing_hosts.any? ? 'var(--color-error)' : 'var(--color-ink-500)' %>;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                       style="background: <%= rule.currently_firing_hosts.any? ? 'var(--dm-badge-error-bg)' : 'var(--dm-bg-muted)' %>;">
+                    <svg class="w-5 h-5" style="color: <%= rule.currently_firing_hosts.any? ? 'var(--color-error)' : 'var(--dm-text-muted)' %>;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                     </svg>
                   </div>
                   <div>
-                    <p class="font-medium" style="color: var(--color-ink-900);"><%= rule.name %></p>
-                    <p class="text-xs" style="color: var(--color-ink-400);">
+                    <p class="font-medium dm-text-primary"><%= rule.name %></p>
+                    <p class="text-xs dm-text-subtle">
                       <% if rule.currently_firing_hosts.any? %>
                         Firing on <%= rule.currently_firing_hosts.count %> host(s)
                       <% elsif rule.last_triggered_at %>
@@ -56,19 +56,18 @@
                 </div>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm font-mono px-2 py-1 rounded" style="background: var(--color-cream-100); color: var(--color-ink-700);">
+                <span class="text-sm font-mono px-2 py-1 rounded dm-code">
                   <%= rule.metric.humanize %> <%= { 'gt' => '>', 'gte' => '>=', 'lt' => '<', 'lte' => '<=', 'eq' => '=' }[rule.operator] %> <%= rule.threshold %>
                 </span>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm" style="color: var(--color-ink-600);">
+                <span class="text-sm dm-text-tertiary">
                   <%= rule.scope_type.capitalize %>
                 </span>
               </td>
               <td class="px-6 py-4">
-                <% severity_colors = { 'info' => 'var(--color-ink-500)', 'warning' => 'var(--color-warning)', 'critical' => 'var(--color-error)' } %>
-                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                      style="background: <%= severity_colors[rule.severity] %>15; color: <%= severity_colors[rule.severity] %>;">
+                <% severity_classes = { 'info' => 'dm-badge-neutral', 'warning' => 'dm-badge-warning', 'critical' => 'dm-badge-error' } %>
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium <%= severity_classes[rule.severity] %>">
                   <%= rule.severity.capitalize %>
                 </span>
               </td>
@@ -80,9 +79,8 @@
                     Enabled
                   </span>
                 <% else %>
-                  <span class="inline-flex items-center gap-1.5 text-xs font-medium"
-                        style="color: var(--color-ink-400);">
-                    <span class="w-1.5 h-1.5 rounded-full" style="background: var(--color-ink-300);"></span>
+                  <span class="inline-flex items-center gap-1.5 text-xs font-medium dm-text-subtle">
+                    <span class="w-1.5 h-1.5 rounded-full dm-text-disabled" style="background: currentColor;"></span>
                     Disabled
                   </span>
                 <% end %>
@@ -99,15 +97,14 @@
     </div>
   <% else %>
     <!-- Empty State -->
-    <div class="rounded-2xl border p-12 text-center" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-4"
-           style="background: var(--color-cream-100);">
-        <svg class="w-8 h-8" style="color: var(--color-ink-400);" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="rounded-2xl border p-12 text-center dm-card">
+      <div class="w-16 h-16 rounded-2xl mx-auto flex items-center justify-center mb-4 dm-bg-muted">
+        <svg class="w-8 h-8 dm-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
         </svg>
       </div>
-      <h3 class="font-semibold mb-1" style="color: var(--color-ink-900);">No alert rules</h3>
-      <p class="text-sm mb-6 max-w-sm mx-auto" style="color: var(--color-ink-500);">Create alert rules to get notified when metrics exceed thresholds</p>
+      <h3 class="font-semibold mb-1 dm-text-primary">No alert rules</h3>
+      <p class="text-sm mb-6 max-w-sm mx-auto dm-text-muted">Create alert rules to get notified when metrics exceed thresholds</p>
       <%= link_to dashboard_project_new_alert_rule_path(current_project),
           class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90",
           style: "background: var(--color-sentinel);" do %>

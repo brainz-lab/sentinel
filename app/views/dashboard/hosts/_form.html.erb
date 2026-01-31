@@ -1,6 +1,6 @@
 <%= form_with model: [@current_project, @host], url: @host.persisted? ? dashboard_project_host_path(current_project, @host) : dashboard_project_hosts_path(current_project), class: "space-y-6" do |f| %>
   <% if @host.errors.any? %>
-    <div class="rounded-xl px-4 py-3 text-sm" style="background: rgba(239, 68, 68, 0.1); color: #991B1B;">
+    <div class="rounded-xl px-4 py-3 text-sm dm-alert-error">
       <ul class="list-disc list-inside">
         <% @host.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,55 +10,54 @@
   <% end %>
 
   <div>
-    <%= f.label :name, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+    <%= f.label :name, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
     <%= f.text_field :name,
-        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-        style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+        style: "--tw-ring-color: var(--color-sentinel);",
         placeholder: "production-web-1" %>
-    <p class="mt-1.5 text-xs" style="color: var(--color-ink-400);">A friendly name for this host</p>
+    <p class="mt-1.5 text-xs dm-text-subtle">A friendly name for this host</p>
   </div>
 
   <div>
-    <%= f.label :hostname, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+    <%= f.label :hostname, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
     <%= f.text_field :hostname,
-        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-        style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+        style: "--tw-ring-color: var(--color-sentinel);",
         placeholder: "server.example.com" %>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :host_group_id, "Host Group", class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :host_group_id, "Host Group", class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :host_group_id,
           options_from_collection_for_select(@host_groups, :id, :name, @host.host_group_id),
           { include_blank: "No group" },
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
     </div>
 
     <div>
-      <%= f.label :environment, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :environment, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :environment,
           [['Production', 'production'], ['Staging', 'staging'], ['Development', 'development']],
           { include_blank: "Select environment" },
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
     </div>
   </div>
 
   <div>
-    <%= f.label :role, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+    <%= f.label :role, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
     <%= f.text_field :role,
-        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-        style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+        style: "--tw-ring-color: var(--color-sentinel);",
         placeholder: "web, api, worker, database, etc." %>
   </div>
 
   <div class="flex items-center justify-end gap-3 pt-4">
     <%= link_to "Cancel",
         @host.persisted? ? dashboard_project_host_path(current_project, @host) : dashboard_project_hosts_path(current_project),
-        class: "px-4 py-2.5 rounded-xl text-sm font-medium transition",
-        style: "color: var(--color-ink-600);" %>
+        class: "px-4 py-2.5 rounded-xl text-sm font-medium transition dm-text-tertiary" %>
     <%= f.submit @host.persisted? ? "Update Host" : "Create Host",
         class: "px-5 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90 cursor-pointer",
         style: "background: var(--color-sentinel);" %>

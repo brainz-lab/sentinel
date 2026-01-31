@@ -2,7 +2,7 @@
     url: @alert_rule.persisted? ? dashboard_project_alert_rule_path(current_project, @alert_rule) : dashboard_project_alert_rules_path(current_project),
     class: "space-y-6" do |f| %>
   <% if @alert_rule.errors.any? %>
-    <div class="rounded-xl px-4 py-3 text-sm" style="background: rgba(239, 68, 68, 0.1); color: #991B1B;">
+    <div class="rounded-xl px-4 py-3 text-sm dm-alert-error">
       <ul class="list-disc list-inside">
         <% @alert_rule.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -12,96 +12,94 @@
   <% end %>
 
   <div>
-    <%= f.label :name, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+    <%= f.label :name, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
     <%= f.text_field :name,
-        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-        style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+        style: "--tw-ring-color: var(--color-sentinel);",
         placeholder: "High CPU Usage" %>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :metric, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :metric, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :metric,
           AlertRule::METRICS.map { |m| [m.humanize, m] },
           {},
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
     </div>
 
     <div>
-      <%= f.label :operator, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :operator, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :operator,
           [['Greater than (>)', 'gt'], ['Greater than or equal (>=)', 'gte'], ['Less than (<)', 'lt'], ['Less than or equal (<=)', 'lte'], ['Equal (=)', 'eq']],
           {},
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
     </div>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :threshold, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :threshold, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.number_field :threshold,
           step: 0.1,
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);",
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);",
           placeholder: "80" %>
     </div>
 
     <div>
-      <%= f.label :duration_seconds, "Duration (minutes)", class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :duration_seconds, "Duration (minutes)", class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :duration_seconds,
           [[1, 60], [5, 300], [10, 600], [15, 900], [30, 1800], [60, 3600]].map { |label, val| ["#{label} minute#{'s' if label > 1}", val] },
           {},
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
-      <p class="mt-1.5 text-xs" style="color: var(--color-ink-400);">How long the condition must be true before alerting</p>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
+      <p class="mt-1.5 text-xs dm-text-subtle">How long the condition must be true before alerting</p>
     </div>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <%= f.label :scope_type, "Apply to", class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :scope_type, "Apply to", class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :scope_type,
           [['All hosts', 'all'], ['Specific group', 'group'], ['Specific host', 'host'], ['Hosts with tag', 'tag']],
           {},
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
     </div>
 
     <div>
-      <%= f.label :severity, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+      <%= f.label :severity, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
       <%= f.select :severity,
           AlertRule::SEVERITIES.map { |s| [s.capitalize, s] },
           {},
-          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-          style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
+          class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+          style: "--tw-ring-color: var(--color-sentinel);" %>
     </div>
   </div>
 
   <div>
-    <%= f.label :aggregation, class: "block text-sm font-medium mb-2", style: "color: var(--color-ink-700);" %>
+    <%= f.label :aggregation, class: "block text-sm font-medium mb-2 dm-text-secondary" %>
     <%= f.select :aggregation,
         AlertRule::AGGREGATIONS.map { |a| [a.capitalize, a] },
         {},
-        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2",
-        style: "border-color: var(--color-cream-200); background: var(--color-cream-50); --tw-ring-color: var(--color-sentinel);" %>
-    <p class="mt-1.5 text-xs" style="color: var(--color-ink-400);">How to aggregate metrics over the duration</p>
+        class: "w-full px-4 py-2.5 rounded-xl border text-sm transition focus:outline-none focus:ring-2 dm-input",
+        style: "--tw-ring-color: var(--color-sentinel);" %>
+    <p class="mt-1.5 text-xs dm-text-subtle">How to aggregate metrics over the duration</p>
   </div>
 
   <div class="flex items-center gap-3">
     <%= f.check_box :enabled,
-        class: "w-4 h-4 rounded border-2 text-[var(--color-sentinel)] focus:ring-[var(--color-sentinel)]",
-        style: "border-color: var(--color-cream-200);" %>
-    <%= f.label :enabled, "Enable this alert rule", class: "text-sm font-medium", style: "color: var(--color-ink-700);" %>
+        class: "w-4 h-4 rounded border-2 text-[var(--color-sentinel)] focus:ring-[var(--color-sentinel)] dm-border" %>
+    <%= f.label :enabled, "Enable this alert rule", class: "text-sm font-medium dm-text-secondary" %>
   </div>
 
   <div class="flex items-center justify-end gap-3 pt-4">
     <%= link_to "Cancel",
         @alert_rule.persisted? ? dashboard_project_alert_rule_path(current_project, @alert_rule) : dashboard_project_alert_rules_path(current_project),
-        class: "px-4 py-2.5 rounded-xl text-sm font-medium transition",
-        style: "color: var(--color-ink-600);" %>
+        class: "px-4 py-2.5 rounded-xl text-sm font-medium transition dm-text-tertiary" %>
     <%= f.submit @alert_rule.persisted? ? "Update Rule" : "Create Rule",
         class: "px-5 py-2.5 rounded-xl text-sm font-medium text-white transition hover:opacity-90 cursor-pointer",
         style: "background: var(--color-sentinel);" %>

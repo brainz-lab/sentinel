@@ -5,35 +5,31 @@
   <div class="flex items-center justify-between">
     <div>
       <%= link_to dashboard_project_hosts_path(current_project),
-          class: "inline-flex items-center gap-1 text-sm font-medium mb-2 transition",
-          style: "color: var(--color-ink-500);" do %>
+          class: "inline-flex items-center gap-1 text-sm font-medium mb-2 transition dm-text-muted" do %>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 19l-7-7 7-7"/>
         </svg>
         Back to hosts
       <% end %>
       <div class="flex items-center gap-4">
-        <h1 class="text-2xl font-semibold" style="color: var(--color-ink-900);"><%= @host.name || @host.hostname %></h1>
+        <h1 class="text-2xl font-semibold dm-text-primary"><%= @host.name || @host.hostname %></h1>
         <% if @host.online? %>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                style="background: rgba(34, 197, 94, 0.1); color: #166534;">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium dm-badge-success">
             <span class="w-1.5 h-1.5 rounded-full" style="background: var(--color-success);"></span>
             Online
           </span>
         <% else %>
-          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium"
-                style="background: rgba(239, 68, 68, 0.1); color: #991B1B;">
+          <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium dm-badge-error">
             <span class="w-1.5 h-1.5 rounded-full" style="background: var(--color-error);"></span>
             Offline
           </span>
         <% end %>
       </div>
-      <p class="mt-1 text-sm" style="color: var(--color-ink-500);"><%= @host.hostname %></p>
+      <p class="mt-1 text-sm dm-text-muted"><%= @host.hostname %></p>
     </div>
     <div class="flex items-center gap-3">
       <%= link_to dashboard_project_edit_host_path(current_project, @host),
-          class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition",
-          style: "background: var(--color-cream-100); color: var(--color-ink-700);" do %>
+          class: "inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition dm-bg-muted dm-text-secondary" do %>
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
         </svg>
@@ -44,84 +40,84 @@
 
   <!-- Stats Cards -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-    <div class="rounded-2xl border p-5" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <p class="text-sm mb-1" style="color: var(--color-ink-500);">CPU Usage</p>
+    <div class="rounded-2xl border p-5 dm-card">
+      <p class="text-sm mb-1 dm-text-muted">CPU Usage</p>
       <div class="flex items-end gap-2">
-        <p class="text-2xl font-semibold" style="color: var(--color-ink-900);"><%= @host.current_cpu.round(1) %>%</p>
+        <p class="text-2xl font-semibold dm-text-primary"><%= @host.current_cpu.round(1) %>%</p>
       </div>
-      <div class="mt-2 h-1.5 rounded-full overflow-hidden" style="background: var(--color-cream-200);">
+      <div class="mt-2 h-1.5 rounded-full overflow-hidden dm-progress-bg">
         <div class="h-full rounded-full"
              style="width: <%= [@host.current_cpu, 100].min %>%; background: <%= @host.current_cpu > 80 ? 'var(--color-error)' : @host.current_cpu > 60 ? 'var(--color-warning)' : 'var(--color-success)' %>;"></div>
       </div>
     </div>
 
-    <div class="rounded-2xl border p-5" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <p class="text-sm mb-1" style="color: var(--color-ink-500);">Memory Usage</p>
+    <div class="rounded-2xl border p-5 dm-card">
+      <p class="text-sm mb-1 dm-text-muted">Memory Usage</p>
       <div class="flex items-end gap-2">
-        <p class="text-2xl font-semibold" style="color: var(--color-ink-900);"><%= @host.current_memory.round(1) %>%</p>
-        <p class="text-sm mb-1" style="color: var(--color-ink-400);">of <%= @host.memory_total_gb %> GB</p>
+        <p class="text-2xl font-semibold dm-text-primary"><%= @host.current_memory.round(1) %>%</p>
+        <p class="text-sm mb-1 dm-text-subtle">of <%= @host.memory_total_gb %> GB</p>
       </div>
-      <div class="mt-2 h-1.5 rounded-full overflow-hidden" style="background: var(--color-cream-200);">
+      <div class="mt-2 h-1.5 rounded-full overflow-hidden dm-progress-bg">
         <div class="h-full rounded-full"
              style="width: <%= [@host.current_memory, 100].min %>%; background: <%= @host.current_memory > 85 ? 'var(--color-error)' : @host.current_memory > 70 ? 'var(--color-warning)' : 'var(--color-success)' %>;"></div>
       </div>
     </div>
 
-    <div class="rounded-2xl border p-5" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <p class="text-sm mb-1" style="color: var(--color-ink-500);">Load Average</p>
-      <p class="text-2xl font-semibold" style="color: var(--color-ink-900);"><%= @host.current_load.round(2) %></p>
-      <p class="text-sm mt-1" style="color: var(--color-ink-400);">1 min average</p>
+    <div class="rounded-2xl border p-5 dm-card">
+      <p class="text-sm mb-1 dm-text-muted">Load Average</p>
+      <p class="text-2xl font-semibold dm-text-primary"><%= @host.current_load.round(2) %></p>
+      <p class="text-sm mt-1 dm-text-subtle">1 min average</p>
     </div>
 
-    <div class="rounded-2xl border p-5" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <p class="text-sm mb-1" style="color: var(--color-ink-500);">Uptime</p>
-      <p class="text-2xl font-semibold" style="color: var(--color-ink-900);"><%= @host.uptime_humanized %></p>
-      <p class="text-sm mt-1" style="color: var(--color-ink-400);">Last seen <%= @host.last_seen_at ? time_ago_in_words(@host.last_seen_at) + ' ago' : 'never' %></p>
+    <div class="rounded-2xl border p-5 dm-card">
+      <p class="text-sm mb-1 dm-text-muted">Uptime</p>
+      <p class="text-2xl font-semibold dm-text-primary"><%= @host.uptime_humanized %></p>
+      <p class="text-sm mt-1 dm-text-subtle">Last seen <%= @host.last_seen_at ? time_ago_in_words(@host.last_seen_at) + ' ago' : 'never' %></p>
     </div>
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
     <!-- Host Info -->
-    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <div class="px-6 py-4 border-b" style="border-color: var(--color-cream-200);">
-        <h2 class="font-semibold" style="color: var(--color-ink-900);">Host Information</h2>
+    <div class="rounded-2xl border overflow-hidden dm-card">
+      <div class="px-6 py-4 border-b dm-border">
+        <h2 class="font-semibold dm-text-primary">Host Information</h2>
       </div>
       <div class="p-6 space-y-4">
         <div class="flex justify-between">
-          <span class="text-sm" style="color: var(--color-ink-500);">Hostname</span>
-          <span class="text-sm font-medium" style="color: var(--color-ink-900);"><%= @host.hostname %></span>
+          <span class="text-sm dm-text-muted">Hostname</span>
+          <span class="text-sm font-medium dm-text-primary"><%= @host.hostname %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm" style="color: var(--color-ink-500);">IP Address</span>
-          <span class="text-sm font-medium font-mono" style="color: var(--color-ink-900);"><%= @host.ip_address || '-' %></span>
+          <span class="text-sm dm-text-muted">IP Address</span>
+          <span class="text-sm font-medium font-mono dm-text-primary"><%= @host.ip_address || '-' %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm" style="color: var(--color-ink-500);">OS</span>
-          <span class="text-sm font-medium" style="color: var(--color-ink-900);"><%= @host.os || '-' %></span>
+          <span class="text-sm dm-text-muted">OS</span>
+          <span class="text-sm font-medium dm-text-primary"><%= @host.os || '-' %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm" style="color: var(--color-ink-500);">Kernel</span>
-          <span class="text-sm font-medium" style="color: var(--color-ink-900);"><%= @host.kernel_version || '-' %></span>
+          <span class="text-sm dm-text-muted">Kernel</span>
+          <span class="text-sm font-medium dm-text-primary"><%= @host.kernel_version || '-' %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm" style="color: var(--color-ink-500);">CPU Cores</span>
-          <span class="text-sm font-medium" style="color: var(--color-ink-900);"><%= @host.cpu_cores || '-' %></span>
+          <span class="text-sm dm-text-muted">CPU Cores</span>
+          <span class="text-sm font-medium dm-text-primary"><%= @host.cpu_cores || '-' %></span>
         </div>
         <div class="flex justify-between">
-          <span class="text-sm" style="color: var(--color-ink-500);">Group</span>
+          <span class="text-sm dm-text-muted">Group</span>
           <% if @host.host_group %>
             <%= link_to @host.host_group.name, dashboard_project_host_group_path(current_project, @host.host_group),
                 class: "text-sm font-medium", style: "color: var(--color-sentinel);" %>
           <% else %>
-            <span class="text-sm" style="color: var(--color-ink-400);">No group</span>
+            <span class="text-sm dm-text-subtle">No group</span>
           <% end %>
         </div>
         <% if @host.tags.present? %>
           <div>
-            <span class="text-sm block mb-2" style="color: var(--color-ink-500);">Tags</span>
+            <span class="text-sm block mb-2 dm-text-muted">Tags</span>
             <div class="flex flex-wrap gap-2">
               <% @host.tags.each do |key, value| %>
-                <span class="text-xs px-2 py-1 rounded-full" style="background: var(--color-cream-100); color: var(--color-ink-600);">
+                <span class="text-xs px-2 py-1 rounded-full dm-badge-neutral">
                   <%= key %>: <%= value %>
                 </span>
               <% end %>
@@ -132,9 +128,9 @@
     </div>
 
     <!-- Disk Usage -->
-    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <div class="px-6 py-4 border-b" style="border-color: var(--color-cream-200);">
-        <h2 class="font-semibold" style="color: var(--color-ink-900);">Disk Usage</h2>
+    <div class="rounded-2xl border overflow-hidden dm-card">
+      <div class="px-6 py-4 border-b dm-border">
+        <h2 class="font-semibold dm-text-primary">Disk Usage</h2>
       </div>
       <div class="p-6">
         <% if @disk_usage.any? %>
@@ -142,21 +138,21 @@
             <% @disk_usage.each do |disk| %>
               <div>
                 <div class="flex justify-between mb-1">
-                  <span class="text-sm font-medium" style="color: var(--color-ink-700);"><%= disk.mount_point %></span>
-                  <span class="text-sm" style="color: var(--color-ink-500);"><%= disk.usage_percent&.round(1) || 0 %>%</span>
+                  <span class="text-sm font-medium dm-text-secondary"><%= disk.mount_point %></span>
+                  <span class="text-sm dm-text-muted"><%= disk.usage_percent&.round(1) || 0 %>%</span>
                 </div>
-                <div class="h-2 rounded-full overflow-hidden" style="background: var(--color-cream-200);">
+                <div class="h-2 rounded-full overflow-hidden dm-progress-bg">
                   <div class="h-full rounded-full"
                        style="width: <%= [disk.usage_percent || 0, 100].min %>%; background: <%= (disk.usage_percent || 0) > 90 ? 'var(--color-error)' : (disk.usage_percent || 0) > 75 ? 'var(--color-warning)' : 'var(--color-success)' %>;"></div>
                 </div>
-                <p class="text-xs mt-1" style="color: var(--color-ink-400);">
+                <p class="text-xs mt-1 dm-text-subtle">
                   <%= number_to_human_size(disk.used_bytes || 0) %> / <%= number_to_human_size(disk.total_bytes || 0) %>
                 </p>
               </div>
             <% end %>
           </div>
         <% else %>
-          <p class="text-sm text-center py-4" style="color: var(--color-ink-400);">No disk metrics available</p>
+          <p class="text-sm text-center py-4 dm-text-subtle">No disk metrics available</p>
         <% end %>
       </div>
     </div>
@@ -164,9 +160,9 @@
 
   <!-- Containers -->
   <% if @containers.any? %>
-    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <div class="px-6 py-4 border-b flex items-center justify-between" style="border-color: var(--color-cream-200);">
-        <h2 class="font-semibold" style="color: var(--color-ink-900);">Containers</h2>
+    <div class="rounded-2xl border overflow-hidden dm-card">
+      <div class="px-6 py-4 border-b flex items-center justify-between dm-border">
+        <h2 class="font-semibold dm-text-primary">Containers</h2>
         <%= link_to containers_dashboard_project_host_path(current_project, @host),
             class: "text-sm font-medium transition", style: "color: var(--color-sentinel);" do %>
           View all
@@ -174,22 +170,22 @@
       </div>
       <table class="w-full">
         <thead>
-          <tr style="background: var(--color-cream-50);">
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Name</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Image</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Status</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">CPU</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Memory</th>
+          <tr class="dm-table-header">
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Name</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Image</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Status</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">CPU</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Memory</th>
           </tr>
         </thead>
-        <tbody class="divide-y" style="border-color: var(--color-cream-100);">
+        <tbody class="divide-y dm-table-border">
           <% @containers.each do |container| %>
             <tr>
               <td class="px-6 py-4">
-                <span class="font-medium" style="color: var(--color-ink-900);"><%= container.name %></span>
+                <span class="font-medium dm-text-primary"><%= container.name %></span>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm font-mono" style="color: var(--color-ink-600);"><%= container.image&.truncate(40) %></span>
+                <span class="text-sm font-mono dm-text-tertiary"><%= container.image&.truncate(40) %></span>
               </td>
               <td class="px-6 py-4">
                 <% if container.status == 'running' %>
@@ -199,17 +195,16 @@
                     Running
                   </span>
                 <% else %>
-                  <span class="inline-flex items-center gap-1 text-xs font-medium"
-                        style="color: var(--color-ink-400);">
+                  <span class="inline-flex items-center gap-1 text-xs font-medium dm-text-subtle">
                     <%= container.status&.capitalize %>
                   </span>
                 <% end %>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm" style="color: var(--color-ink-700);"><%= container.container_metrics.last&.cpu_usage_percent&.round(1) || 0 %>%</span>
+                <span class="text-sm dm-text-secondary"><%= container.container_metrics.last&.cpu_usage_percent&.round(1) || 0 %>%</span>
               </td>
               <td class="px-6 py-4">
-                <span class="text-sm" style="color: var(--color-ink-700);"><%= container.container_metrics.last&.memory_usage_percent&.round(1) || 0 %>%</span>
+                <span class="text-sm dm-text-secondary"><%= container.container_metrics.last&.memory_usage_percent&.round(1) || 0 %>%</span>
               </td>
             </tr>
           <% end %>
@@ -220,9 +215,9 @@
 
   <!-- Recent Metrics -->
   <% if @metrics.any? %>
-    <div class="rounded-2xl border overflow-hidden" style="background: #FFFFFE; border-color: var(--color-cream-200);">
-      <div class="px-6 py-4 border-b flex items-center justify-between" style="border-color: var(--color-cream-200);">
-        <h2 class="font-semibold" style="color: var(--color-ink-900);">Recent Metrics</h2>
+    <div class="rounded-2xl border overflow-hidden dm-card">
+      <div class="px-6 py-4 border-b flex items-center justify-between dm-border">
+        <h2 class="font-semibold dm-text-primary">Recent Metrics</h2>
         <%= link_to metrics_dashboard_project_host_path(current_project, @host),
             class: "text-sm font-medium transition", style: "color: var(--color-sentinel);" do %>
           View all
@@ -230,35 +225,35 @@
       </div>
       <table class="w-full">
         <thead>
-          <tr style="background: var(--color-cream-50);">
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Time</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">CPU</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Memory</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Load 1m</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Load 5m</th>
-            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider" style="color: var(--color-ink-500);">Load 15m</th>
+          <tr class="dm-table-header">
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Time</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">CPU</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Memory</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Load 1m</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Load 5m</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider dm-text-muted">Load 15m</th>
           </tr>
         </thead>
-        <tbody class="divide-y" style="border-color: var(--color-cream-100);">
+        <tbody class="divide-y dm-table-border">
           <% @metrics.first(10).each do |metric| %>
             <tr>
               <td class="px-6 py-3">
-                <span class="text-sm" style="color: var(--color-ink-600);"><%= metric.recorded_at.strftime('%H:%M:%S') %></span>
+                <span class="text-sm dm-text-tertiary"><%= metric.recorded_at.strftime('%H:%M:%S') %></span>
               </td>
               <td class="px-6 py-3">
-                <span class="text-sm font-medium" style="color: var(--color-ink-700);"><%= metric.cpu_usage_percent&.round(1) || 0 %>%</span>
+                <span class="text-sm font-medium dm-text-secondary"><%= metric.cpu_usage_percent&.round(1) || 0 %>%</span>
               </td>
               <td class="px-6 py-3">
-                <span class="text-sm font-medium" style="color: var(--color-ink-700);"><%= metric.memory_usage_percent&.round(1) || 0 %>%</span>
+                <span class="text-sm font-medium dm-text-secondary"><%= metric.memory_usage_percent&.round(1) || 0 %>%</span>
               </td>
               <td class="px-6 py-3">
-                <span class="text-sm" style="color: var(--color-ink-600);"><%= metric.load_1m&.round(2) || '-' %></span>
+                <span class="text-sm dm-text-tertiary"><%= metric.load_1m&.round(2) || '-' %></span>
               </td>
               <td class="px-6 py-3">
-                <span class="text-sm" style="color: var(--color-ink-600);"><%= metric.load_5m&.round(2) || '-' %></span>
+                <span class="text-sm dm-text-tertiary"><%= metric.load_5m&.round(2) || '-' %></span>
               </td>
               <td class="px-6 py-3">
-                <span class="text-sm" style="color: var(--color-ink-600);"><%= metric.load_15m&.round(2) || '-' %></span>
+                <span class="text-sm dm-text-tertiary"><%= metric.load_15m&.round(2) || '-' %></span>
               </td>
             </tr>
           <% end %>
