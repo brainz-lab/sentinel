@@ -1,0 +1,317 @@
+/* ============================================
+   BRAINZLAB UI - DARK MODE
+   ============================================
+   Comprehensive dark mode support for BrainzLab UI
+
+   Usage:
+   1. Add .dark class to <html> or <body> element
+   2. Or use @media (prefers-color-scheme: dark) for automatic detection
+
+   The dark mode controller (Stimulus) manages toggling via:
+   - document.documentElement.classList.add('dark')
+   - localStorage for persistence
+*/
+
+/* ----------------------------------------
+   DARK MODE CUSTOM VARIANT
+   ---------------------------------------- */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ----------------------------------------
+   BASE DARK MODE STYLES
+   ----------------------------------------
+   These apply to the root elements when dark mode is active
+*/
+.dark {
+  color-scheme: dark;
+}
+
+.dark body,
+html.dark body {
+  background-color: var(--color-dark-bg);
+  color: var(--color-dark-text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Headings in dark mode */
+.dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+  color: var(--color-dark-text);
+}
+
+/* Links in dark mode */
+.dark a:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-danger):not(.nav-item) {
+  color: var(--color-primary-300);
+}
+
+.dark a:not(.btn-primary):not(.btn-secondary):not(.btn-ghost):not(.btn-danger):not(.nav-item):hover {
+  color: var(--color-primary-400);
+}
+
+/* Text selection in dark mode */
+.dark ::selection {
+  background: rgba(199, 123, 88, 0.3);
+  color: var(--color-dark-text);
+}
+
+/* Scrollbar styling for dark mode */
+.dark ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: var(--color-dark-bg);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: var(--color-dark-border);
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: var(--color-dark-text-muted);
+}
+
+/* ----------------------------------------
+   DARK MODE TOGGLE BUTTON
+   ---------------------------------------- */
+.dark-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0.5rem;
+  background: transparent;
+  border: 1px solid var(--color-cream-300);
+  border-radius: 0.75rem;
+  color: var(--color-ink-600);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--color-cream-100);
+  color: var(--color-ink-900);
+}
+
+.dark-mode-toggle:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
+}
+
+.dark .dark-mode-toggle {
+  border-color: var(--color-dark-border);
+  color: var(--color-dark-text-muted);
+}
+
+.dark .dark-mode-toggle:hover {
+  background: var(--color-dark-surface-light);
+  color: var(--color-dark-text);
+}
+
+.dark .dark-mode-toggle:focus-visible {
+  outline-color: var(--color-primary-400);
+}
+
+/* Toggle icon container */
+.dark-mode-toggle svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.dark-mode-toggle:hover svg {
+  transform: rotate(15deg);
+}
+
+/* ----------------------------------------
+   DARK MODE UTILITY CLASSES
+   ---------------------------------------- */
+
+/* Background utilities */
+.dark .bg-white {
+  background-color: var(--color-dark-surface);
+}
+
+.dark .bg-cream-50 {
+  background-color: var(--color-dark-bg);
+}
+
+.dark .bg-cream-100 {
+  background-color: var(--color-dark-surface);
+}
+
+.dark .bg-cream-200 {
+  background-color: var(--color-dark-surface-light);
+}
+
+/* Text utilities */
+.dark .text-ink-950 {
+  color: var(--color-dark-text);
+}
+
+.dark .text-ink-900 {
+  color: var(--color-dark-text);
+}
+
+.dark .text-ink-700 {
+  color: var(--color-dark-text);
+}
+
+.dark .text-ink-600 {
+  color: var(--color-dark-text-muted);
+}
+
+.dark .text-ink-500 {
+  color: var(--color-dark-text-muted);
+}
+
+/* Border utilities */
+.dark .border-cream-200 {
+  border-color: var(--color-dark-border);
+}
+
+.dark .border-cream-300 {
+  border-color: var(--color-dark-border);
+}
+
+/* ----------------------------------------
+   DARK MODE GRADIENT UTILITIES
+   ---------------------------------------- */
+.dark .bg-gradient-warm {
+  background: linear-gradient(135deg, var(--color-dark-surface) 0%, var(--color-dark-surface-light) 100%);
+}
+
+.dark .gradient-mesh .gradient-blob {
+  opacity: 0.3;
+}
+
+/* ----------------------------------------
+   DARK MODE MODAL/OVERLAY
+   ---------------------------------------- */
+.dark .modal-overlay {
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.dark .modal {
+  background: var(--color-dark-surface);
+  box-shadow: var(--shadow-dark-large);
+}
+
+.dark .modal-header {
+  border-bottom-color: var(--color-dark-border);
+}
+
+.dark .modal-footer {
+  border-top-color: var(--color-dark-border);
+}
+
+/* ----------------------------------------
+   DARK MODE DROPDOWN
+   ---------------------------------------- */
+.dark .dropdown-menu {
+  background: var(--color-dark-surface);
+  border-color: var(--color-dark-border);
+  box-shadow: var(--shadow-dark-medium);
+}
+
+.dark .dropdown-item {
+  color: var(--color-dark-text-muted);
+}
+
+.dark .dropdown-item:hover {
+  background: var(--color-dark-surface-light);
+  color: var(--color-dark-text);
+}
+
+.dark .dropdown-divider {
+  background: var(--color-dark-border);
+}
+
+/* ----------------------------------------
+   DARK MODE TOOLTIP
+   ---------------------------------------- */
+.dark .tooltip-content {
+  background: var(--color-dark-surface-light);
+  color: var(--color-dark-text);
+  border: 1px solid var(--color-dark-border);
+}
+
+/* ----------------------------------------
+   DARK MODE TERMINAL
+   ---------------------------------------- */
+.dark .terminal {
+  background: var(--color-dark-bg);
+  border: 1px solid var(--color-dark-border);
+}
+
+.dark .terminal-header {
+  border-bottom-color: var(--color-dark-border);
+}
+
+.dark .terminal-body {
+  color: var(--color-dark-text);
+}
+
+/* ----------------------------------------
+   DARK MODE CODE/PRE
+   ---------------------------------------- */
+.dark pre {
+  background: var(--color-dark-surface);
+  border: 1px solid var(--color-dark-border);
+}
+
+.dark code {
+  background: var(--color-dark-surface-light);
+  color: var(--color-dark-text);
+}
+
+/* ----------------------------------------
+   PREFERS-COLOR-SCHEME SUPPORT
+   ----------------------------------------
+   Automatically apply dark mode when system prefers dark
+   This works alongside the .dark class approach
+*/
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) body {
+    background-color: var(--color-dark-bg);
+    color: var(--color-dark-text);
+  }
+
+  :root:not(.light) h1,
+  :root:not(.light) h2,
+  :root:not(.light) h3,
+  :root:not(.light) h4,
+  :root:not(.light) h5,
+  :root:not(.light) h6 {
+    color: var(--color-dark-text);
+  }
+
+  :root:not(.light) ::selection {
+    background: rgba(199, 123, 88, 0.3);
+  }
+}
+
+/* ----------------------------------------
+   PRINT STYLES
+   ----------------------------------------
+   Disable dark mode for printing
+*/
+@media print {
+  .dark body,
+  html.dark body {
+    background-color: white;
+    color: black;
+  }
+
+  .dark .card {
+    background: white;
+    border-color: #e5e5e5;
+  }
+
+  .dark .btn-primary {
+    background: var(--color-primary-500);
+    color: white;
+  }
+}
