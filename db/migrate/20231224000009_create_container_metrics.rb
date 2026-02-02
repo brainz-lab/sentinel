@@ -1,4 +1,5 @@
 class CreateContainerMetrics < ActiveRecord::Migration[8.0]
+  disable_ddl_transaction!
   def change
     create_table :container_metrics, id: false do |t|
       t.references :container, type: :uuid, null: false

@@ -1,4 +1,5 @@
 class CreateProcessSnapshots < ActiveRecord::Migration[8.0]
+  disable_ddl_transaction!
   def change
     create_table :process_snapshots, id: false do |t|
       t.references :host, type: :uuid, null: false

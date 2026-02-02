@@ -1,4 +1,5 @@
 class CreateNetworkMetrics < ActiveRecord::Migration[8.0]
+  disable_ddl_transaction!
   def change
     create_table :network_metrics, id: false do |t|
       t.references :host, type: :uuid, null: false
