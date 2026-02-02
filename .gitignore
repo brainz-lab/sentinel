@@ -64,3 +64,5 @@
 
 # Test coverage
 coverage/
+.kamal/secrets
+.kamal/secrets.tmp
