@@ -42,12 +42,15 @@ class CreateProcessSnapshots < ActiveRecord::Migration[8.0]
           puts "TimescaleDB hypertable creation skipped: #{e.message}"
         end
 
-        begin
-          # Shorter retention for process snapshots (high cardinality)
-          execute "SELECT add_retention_policy('process_snapshots', INTERVAL '7 days', if_not_exists => TRUE);"
-        rescue ActiveRecord::StatementInvalid => e
-          puts "TimescaleDB retention policy skipped: #{e.message}"
-        end
+        # Shorter retention for process snapshots (high cardinality)
+        execute <<~SQL
+          DO $$
+          BEGIN
+            PERFORM add_retention_policy('process_snapshots', INTERVAL '7 days', if_not_exists => TRUE);
+          EXCEPTION WHEN OTHERS THEN
+            RAISE NOTICE 'Retention policy skipped: %', SQLERRM;
+          END $$;
+        SQL
       end
     end
   end

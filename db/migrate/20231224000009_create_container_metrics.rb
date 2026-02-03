@@ -42,11 +42,14 @@ class CreateContainerMetrics < ActiveRecord::Migration[8.0]
           puts "TimescaleDB hypertable creation skipped: #{e.message}"
         end
 
-        begin
-          execute "SELECT add_retention_policy('container_metrics', INTERVAL '14 days', if_not_exists => TRUE);"
-        rescue ActiveRecord::StatementInvalid => e
-          puts "TimescaleDB retention policy skipped: #{e.message}"
-        end
+        execute <<~SQL
+          DO $$
+          BEGIN
+            PERFORM add_retention_policy('container_metrics', INTERVAL '14 days', if_not_exists => TRUE);
+          EXCEPTION WHEN OTHERS THEN
+            RAISE NOTICE 'Retention policy skipped: %', SQLERRM;
+          END $$;
+        SQL
       end
     end
   end
