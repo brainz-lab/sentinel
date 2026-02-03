@@ -66,3 +66,6 @@
 coverage/
 .kamal/secrets
 .kamal/secrets.tmp
+
+# Secrets (NEVER commit)
+.secrets.md
