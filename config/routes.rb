@@ -39,6 +39,14 @@ Rails.application.routes.draw do
   # API v1
   namespace :api do
     namespace :v1 do
+      # Project provisioning (Platform integration)
+      resources :projects, only: [] do
+        collection do
+          post :provision
+          get :lookup
+        end
+      end
+
       # Hosts
       resources :hosts do
         member do
