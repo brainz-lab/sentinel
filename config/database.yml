@@ -5,7 +5,7 @@ default: &default
 
 development:
   <<: *default
-  database: sentinel_development
+  url: <%= ENV.fetch("DATABASE_URL", "postgres://postgres:postgres@localhost:5432") %>/sentinel_development
 
 test:
   <<: *default
