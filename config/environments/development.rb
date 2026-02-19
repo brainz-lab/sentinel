@@ -58,4 +58,5 @@ Rails.application.configure do
   # Allow requests from all origins in development
   config.hosts.clear
   config.hosts << ".brainzlab.local"
+  config.hosts << "localhost"
 end
