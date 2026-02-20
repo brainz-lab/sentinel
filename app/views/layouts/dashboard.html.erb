@@ -51,14 +51,15 @@
   </script>
 
   <style>
-    :root {
-      /* Sentinel-specific brand colors */
-      --color-sentinel: #EA580C;
-      --color-sentinel-dark: #C2410C;
-      --color-sentinel-light: #FB923C;
-      --color-sentinel-bg: #FFEDD5;
-      --color-sentinel-bg-subtle: #FFF7ED;
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-thumb-hover); }
   </style>
 
   <%# Google Analytics - only in production %>
@@ -72,49 +73,57 @@
     </script>
   <% end %>
 </head>
-<body class="h-full antialiased dm-bg-base">
+<body class="h-full dm-body-gradient">
   <div class="flex h-full">
     <!-- Sidebar -->
-    <aside class="w-64 flex flex-col dm-sidebar" style="border-right: 1px solid var(--dm-border-default);">
-      <div class="p-5 flex items-center justify-between" style="border-bottom: 1px solid var(--dm-border-default);">
-        <%= link_to dashboard_root_path, class: "flex items-center gap-2.5" do %>
-          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background: var(--color-sentinel);">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    <aside class="w-64 flex flex-col dm-sidebar-enhanced relative overflow-hidden flex-shrink-0">
+      <!-- Decorative gradient blobs -->
+      <div class="dm-gradient-mesh">
+        <div class="dm-gradient-blob dm-gradient-blob-primary" style="width: 200px; height: 200px; top: -60px; right: -60px;"></div>
+        <div class="dm-gradient-blob dm-gradient-blob-secondary" style="width: 150px; height: 150px; bottom: 20%; left: -40px;"></div>
+      </div>
+
+      <!-- Logo -->
+      <div class="p-5 border-b dm-border-secondary relative z-10">
+        <div class="flex items-center justify-between">
+          <%= link_to dashboard_root_path, class: "flex flex-col items-end gap-1 group" do %>
+            <div class="flex items-center">
+              <img src="/fluyenta-logo-light.png" alt="Fluyenta" class="h-12 dark:hidden">
+              <img src="/fluyenta-logo-dark.png" alt="Fluyenta" class="h-12 hidden dark:block">
+            </div>
+            <span class="text-[10px] font-semibold tracking-wider uppercase px-1.5 py-0.5 rounded" style="color: var(--dm-brand); background: color-mix(in srgb, var(--dm-brand) 12%, transparent);">Sentinel</span>
+          <% end %>
+          <button type="button"
+                  class="dark-mode-toggle"
+                  onclick="toggleDarkMode()"
+                  data-dark-mode-target="icon"
+                  aria-label="Toggle dark mode">
+            <svg class="icon-moon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
             </svg>
-          </div>
-          <span class="font-semibold dm-text-primary">Sentinel</span>
-        <% end %>
-        <button type="button"
-                class="dark-mode-toggle"
-                onclick="toggleDarkMode()"
-                data-dark-mode-target="icon"
-                aria-label="Toggle dark mode">
-          <svg class="icon-moon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-          </svg>
-          <svg class="icon-sun" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
-          </svg>
-        </button>
+            <svg class="icon-sun" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <% if current_project %>
         <!-- Project Selector -->
-        <div class="px-4 py-3" style="border-bottom: 1px solid var(--dm-border-default);">
+        <div class="px-4 py-3 border-b dm-border-secondary relative z-10">
           <%= link_to dashboard_root_path, class: "flex items-center gap-2 px-2 py-1.5 rounded-lg transition dm-text-secondary" do %>
-            <div class="w-6 h-6 rounded flex items-center justify-center text-xs font-semibold dm-sentinel-gradient-bg" style="color: var(--color-sentinel);">
+            <div class="w-6 h-6 rounded flex items-center justify-center text-xs font-semibold dm-accent-bg dm-accent-text">
               <%= current_project.name.first.upcase %>
             </div>
             <span class="flex-1 text-sm font-medium truncate"><%= current_project.name %></span>
-            <svg class="w-4 h-4 dm-text-subtle" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-4 h-4 dm-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 9l4-4 4 4m0 6l-4 4-4-4"/>
             </svg>
           <% end %>
         </div>
 
         <!-- Navigation -->
-        <nav class="p-4 space-y-1 flex-1">
+        <nav class="p-4 space-y-1 flex-1 relative z-10">
           <%= link_to dashboard_project_overview_path(current_project), class: nav_link_class('/overview') do %>
             <%= icon(:overview) %>
             Overview
@@ -136,45 +145,52 @@
           <% end %>
         </nav>
       <% else %>
-        <nav class="p-4 flex-1">
-          <p class="px-3 text-xs font-medium uppercase tracking-wider mb-3 dm-text-subtle">Select a project</p>
+        <nav class="p-4 flex-1 relative z-10">
+          <p class="px-3 text-xs font-medium uppercase tracking-wider mb-3 dm-text-muted">Select a project</p>
         </nav>
       <% end %>
 
       <!-- User Menu -->
-      <div class="p-4" style="border-top: 1px solid var(--dm-border-default);">
-        <div class="flex items-center gap-3">
-          <div class="avatar avatar-md avatar-primary">
+      <div class="p-3 border-t dm-border-secondary relative z-10">
+        <div class="flex items-center gap-3 px-2 py-2 rounded-xl dm-surface-hover transition">
+          <div class="dm-member-avatar w-8 h-8 text-[12px]">
             <%= current_user.name&.first&.upcase || current_user.email.first.upcase %>
           </div>
           <div class="flex-1 min-w-0">
-            <p class="text-sm font-medium truncate dm-text-primary"><%= current_user.name || current_user.email.split('@').first %></p>
-            <p class="text-xs truncate dm-text-muted"><%= current_user.email %></p>
+            <p class="text-[13px] font-medium truncate dm-text"><%= current_user.name || current_user.email.split('@').first %></p>
+            <p class="text-[11px] truncate dm-text-muted"><%= current_user.email %></p>
           </div>
         </div>
       </div>
     </aside>
 
     <!-- Main Content -->
-    <main class="flex-1 overflow-auto">
+    <main class="flex-1 overflow-auto relative">
+      <!-- Decorative gradient blobs -->
+      <div class="dm-gradient-mesh">
+        <div class="dm-gradient-blob dm-gradient-blob-primary" style="width: 500px; height: 500px; top: -150px; right: 5%;"></div>
+        <div class="dm-gradient-blob dm-gradient-blob-secondary" style="width: 400px; height: 400px; bottom: 10%; left: -100px;"></div>
+        <div class="dm-gradient-blob dm-gradient-blob-cyan" style="width: 300px; height: 300px; top: 40%; right: -80px;"></div>
+      </div>
+
       <% if notice %>
-        <div class="m-8 mb-0 alert alert-success">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <div class="m-8 mb-0 px-4 py-3 rounded-xl text-[13px] font-medium flex items-center gap-3 dm-success border dm-fade-in-up relative z-10">
+          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
           </svg>
-          <span><%= notice %></span>
+          <%= notice %>
         </div>
       <% end %>
       <% if alert %>
-        <div class="m-8 mb-0 alert alert-error">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+        <div class="m-8 mb-0 px-4 py-3 rounded-xl text-[13px] font-medium flex items-center gap-3 dm-error border dm-fade-in-up relative z-10">
+          <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
           </svg>
-          <span><%= alert %></span>
+          <%= alert %>
         </div>
       <% end %>
 
-      <div class="p-8">
+      <div class="p-8 relative z-10">
         <%= yield %>
       </div>
     </main>
