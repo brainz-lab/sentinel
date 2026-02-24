@@ -10,6 +10,8 @@ class Project < ApplicationRecord
   before_validation :generate_slug, on: :create
 
   scope :by_platform_id, ->(id) { find_by(platform_project_id: id) }
+  scope :active, -> { where(archived_at: nil) }
+  scope :archived, -> { where.not(archived_at: nil) }
 
   def self.find_or_create_from_platform(platform_project_id:, name:, slug: nil, environment: "production")
     find_or_create_by(platform_project_id: platform_project_id) do |project|
