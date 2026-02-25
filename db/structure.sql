@@ -357,6 +357,7 @@ CREATE TABLE public.projects (
     slug character varying,
     environment character varying DEFAULT 'production'::character varying,
     settings jsonb DEFAULT '{}'::jsonb,
+    archived_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );

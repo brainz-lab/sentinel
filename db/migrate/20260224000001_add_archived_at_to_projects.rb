@@ -1,4 +1,4 @@
-class AddArchivedAtToProjects < ActiveRecord::Migration[8.0]
+class AddArchivedAtToProjects < ActiveRecord::Migration[8.1]
   def change
     add_column :projects, :archived_at, :datetime
   end
