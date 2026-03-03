@@ -6,6 +6,8 @@ module Internal
     # POST /internal/agent
     def create
       host = find_or_create_host
+      return unless host
+
       MetricIngester.new(host).ingest(agent_params)
 
       head :ok
@@ -14,6 +16,7 @@ module Internal
     # POST /internal/agent/register
     def register
       host = find_or_create_host
+      return unless host
 
       # Update host with registration info
       host.update!(
@@ -78,6 +81,18 @@ module Internal
 
     def find_or_create_host
       agent_id = request.headers["X-Agent-ID"] || agent_params[:agent_id]
+
+      # Auto-generate agent_id from hostname if not provided
+      if agent_id.blank?
+        hostname = agent_params[:hostname]
+        if hostname.present?
+          agent_id = "agent-#{hostname.parameterize}"
+        else
+          render json: { error: "Agent identification required. Provide X-Agent-ID header, agent_id parameter, or hostname in the request body." }, status: :unprocessable_entity
+          return nil
+        end
+      end
+
       project = Project.find_or_create_by!(platform_project_id: @project_id) do |p|
         p.name = "Project #{@project_id}"
       end
