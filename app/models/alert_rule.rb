@@ -17,6 +17,7 @@ class AlertRule < ApplicationRecord
   AGGREGATIONS = %w[avg max min sum].freeze
   SEVERITIES = %w[info warning critical].freeze
 
+  scope :for_project, ->(platform_project_id) { where(platform_project_id: platform_project_id) }
   scope :enabled, -> { where(enabled: true) }
 
   def evaluate_all

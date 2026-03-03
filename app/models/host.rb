@@ -20,6 +20,7 @@ class Host < ApplicationRecord
     critical: "critical"
   }, prefix: true
 
+  scope :for_project, ->(platform_project_id) { where(platform_project_id: platform_project_id) }
   scope :online, -> { where(status: "online") }
   scope :with_issues, -> { where(status: %w[warning critical]) }
   scope :by_environment, ->(env) { where(environment: env) }

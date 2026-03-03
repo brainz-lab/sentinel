@@ -1,0 +1,8 @@
+# Sentinel projects fixtures
+# Loaded by fixtures :all in test_helper.rb
+
+default_project:
+  platform_project_id: "prj_test_default"
+  name: "Default Test Project"
+  slug: "default-test-project"
+  environment: "production"

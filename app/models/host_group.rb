@@ -2,6 +2,8 @@ class HostGroup < ApplicationRecord
   belongs_to :project
   has_many :hosts, dependent: :nullify
 
+  scope :for_project, ->(platform_project_id) { where(platform_project_id: platform_project_id) }
+
   validates :name, presence: true, uniqueness: { scope: :project_id }
 
   def matches?(host)
