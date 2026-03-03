@@ -6,6 +6,8 @@ class HostGroup < ApplicationRecord
 
   validates :name, presence: true, uniqueness: { scope: :project_id }
 
+  scope :for_project, ->(project_id) { joins(:project).where(projects: { platform_project_id: project_id }) }
+
   def matches?(host)
     return true if auto_assign_rules.blank?
 

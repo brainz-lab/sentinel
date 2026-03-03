@@ -78,9 +78,13 @@ module Internal
 
     def find_or_create_host
       agent_id = request.headers["X-Agent-ID"] || agent_params[:agent_id]
+      project = Project.find_or_create_by!(platform_project_id: @project_id) do |p|
+        p.name = "Project #{@project_id}"
+      end
 
-      Host.find_or_create_by!(platform_project_id: @project_id, agent_id: agent_id) do |host|
+      Host.find_or_create_by!(project: project, agent_id: agent_id) do |host|
         host.assign_attributes(
+          platform_project_id: @project_id,
           name: agent_params[:hostname] || agent_id,
           hostname: agent_params[:hostname] || agent_id
         )

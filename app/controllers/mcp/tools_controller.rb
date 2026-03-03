@@ -1,5 +1,7 @@
 module Mcp
   class ToolsController < ApplicationController
+    before_action :set_project_context
+
     TOOLS = {
       "sentinel_list_hosts" => Mcp::Tools::ListHosts,
       "sentinel_host_status" => Mcp::Tools::HostStatus,
