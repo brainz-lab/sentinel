@@ -22,7 +22,8 @@ module Api
       # POST /api/v1/host_groups
       def create
         group = HostGroup.new(host_group_params)
-        group.platform_project_id = @project_id
+        project = Project.find_or_create_by!(platform_project_id: @project_id) { |p| p.name = "Project #{@project_id}" }
+        group.project = project
 
         if group.save
           render json: { host_group: group_details(group) }, status: :created
