@@ -25,6 +25,7 @@ class ApplicationController < ActionController::API
     @current_project = validate_api_key(api_key)
     unless @current_project
       render json: { error: "Invalid API key" }, status: :unauthorized
+      return
     end
   end
 

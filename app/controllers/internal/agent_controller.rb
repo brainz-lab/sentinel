@@ -65,6 +65,7 @@ module Internal
       @project_id = validate_agent_api_key(api_key)
       unless @project_id
         render json: { error: "Invalid API key" }, status: :unauthorized
+        return
       end
     end
 
