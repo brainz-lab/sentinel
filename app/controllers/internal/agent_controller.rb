@@ -8,6 +8,16 @@ module Internal
       host = find_or_create_host
       MetricIngester.new(host).ingest(agent_params)
 
+      # Track usage for billing
+      if host.platform_project_id.present?
+        PlatformClient.track_usage(
+          project_id: host.platform_project_id,
+          product: "sentinel",
+          metric: "reports",
+          count: 1
+        )
+      end
+
       head :ok
     end
 
