@@ -61,6 +61,9 @@ gem "http", "~> 5.0"
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS)
 gem "rack-cors"
 
+# AI Assistant
+gem "anthropic", "~> 0.4"
+
 # BrainzLab SDK
 gem "brainzlab", "~> 0.1.12"
 
