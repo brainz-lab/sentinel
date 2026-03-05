@@ -79,7 +79,7 @@ Rails.application.routes.draw do
       end
 
       # Dashboard endpoints
-      namespace :dashboard do
+      scope :dashboard, controller: :dashboards do
         get :fleet
         get :capacity
       end

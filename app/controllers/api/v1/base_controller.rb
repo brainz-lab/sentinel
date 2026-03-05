@@ -3,6 +3,10 @@ module Api
     class BaseController < ApplicationController
       before_action :set_project_context
 
+      rescue_from ActiveRecord::RecordNotFound do
+        render json: { error: "Record not found" }, status: :not_found
+      end
+
       private
 
       def set_project_context

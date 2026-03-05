@@ -23,6 +23,8 @@ module Api
       # POST /api/v1/alert_rules
       def create
         rule = AlertRule.new(alert_rule_params)
+        project = Project.find_or_create_by!(platform_project_id: @project_id) { |p| p.name = "Project #{@project_id}" }
+        rule.project = project
         rule.platform_project_id = @project_id
 
         if rule.save

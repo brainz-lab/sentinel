@@ -85,7 +85,7 @@ class MetricIngester
     interfaces.each do |iface|
       @host.network_metrics.create!(
         recorded_at: recorded_at,
-        interface: iface[:name],
+        interface: iface[:interface] || iface[:name],
         bytes_sent: iface[:bytes_sent],
         bytes_received: iface[:bytes_received],
         packets_sent: iface[:packets_sent],

@@ -19,6 +19,7 @@ class AlertRule < ApplicationRecord
 
   scope :for_project, ->(platform_project_id) { where(platform_project_id: platform_project_id) }
   scope :enabled, -> { where(enabled: true) }
+  scope :for_project, ->(project_id) { joins(:project).where(projects: { platform_project_id: project_id }) }
 
   def evaluate_all
     hosts_in_scope.each do |host|
