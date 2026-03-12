@@ -65,7 +65,7 @@ gem "rack-cors"
 gem "anthropic", "~> 0.4"
 
 # BrainzLab SDK
-gem "brainzlab", "~> 0.1.12"
+gem "fluyenta-ruby", "~> 0.1.16", require: "brainzlab"
 
 # BrainzLab UI - Unified design system with Phlex components
 if ENV["BUNDLE_DEPLOYMENT"] == "1"
